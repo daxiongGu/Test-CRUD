@@ -1,0 +1,473 @@
+.follow-content {
+  width: 70%;
+  margin: 0 auto;
+  padding: 20px;
+  margin-bottom: 80px;
+}
+
+.left {
+  float: left;
+}
+
+.right {
+  float: right;
+}
+
+.follow-wrapper {
+  background: #fff;
+}
+
+.follow-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: #333333;
+  background-color: #f5f5f5;
+  border-color: #ddd;
+  border-radius: 2px 2px 0 0;
+  padding: 10px 15px;
+  border-bottom: 2px solid #eee;
+}
+
+.follow-header--title {
+  line-height: 30px;
+  font-size: 14px;
+}
+
+.follow-header--right {
+  display: flex;
+  align-items: center;
+}
+
+.follow-header--right label {
+  display: flex;
+  justify-content: center;
+  color: #333333;
+  font-weight: normal;
+  font-size: 14px;
+  margin-right: 10px; 
+  user-select: none;
+}
+
+.follow-header--right label:hover {
+  cursor: pointer;
+}
+
+.follow-header--right label input {
+  margin-right: 5px;
+}
+
+.follow-header--writeBtn {
+  display: inline-block;
+  margin-bottom: 0;
+  font-weight: normal;
+  text-align: center;
+  vertical-align: middle;
+  cursor: pointer;
+  background-image: none;
+  border: 1px solid transparent;
+  white-space: nowrap;
+  font-size: 13px;
+  line-height: 18px;
+  padding: 5px 12px;
+  border-radius: 2px;
+  color: #fff;
+  background-color: #FF9052;
+  border-color: #FF9052;
+  user-select: none;
+}
+
+.follow-content a:hover, .follow-content a:active, .follow-content a:visited, .follow-content a:link {
+  text-decoration: none;
+  color: #fff;
+  background-color: #ff6f1f;
+  border-color: #ff6915;
+}
+
+.follow-header--right a:active {
+  box-shadow: inset 0 3px 5px rgba(0,0,0,0.125);
+}
+
+.follow-body {
+  position: relative;
+  padding: 0 15px;
+}
+
+.follow-body:before {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 27px;
+  width: 1px;
+  background-color: #e0e4e8;
+  content: "";
+  display: block;
+}
+
+.follow-body section {
+  display: block;
+}
+
+.comment-list {
+  padding-top: 15px;
+  margin-top: 0;
+}
+
+.comment-item-time {
+  margin: 5px 0 15px;
+  position: relative;
+  padding-left: 2px;
+}
+
+.comment-item-time .timedot {
+  position: absolute;
+  width: 2em;
+  height: 1em;
+  margin-top: 5px;
+  line-height: 1em;
+  display: inline-block;
+  vertical-align: middle;
+  margin-left: -2px;
+  text-align: center;
+  position: relative;
+}
+
+.comment-item-time .dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 7px;
+  background-color: #FF9052;
+  display: inline-block;
+  vertical-align: 1px;
+}
+
+.comment-item-time .timedate {
+  padding: 0 10px;
+  margin-left: 15px;
+  height: 21px;
+  background-color: #FF9052;
+  line-height: 21px;
+  color: #fff;
+  font-size: 12px;
+  border-radius: 2px;
+  position: relative;
+}
+
+.comment-item-time .timedate:before {
+  width: 0;
+  content: "";
+  position: absolute;
+  left: -6px;
+  top: 3px;
+  height: 0;
+  border-top: 7px solid transparent;
+  border-right: 7px solid #FF9052;
+  border-bottom: 7px solid transparent;
+}
+
+.comment-item {
+  margin-top: 0;
+  position: relative;
+}
+
+.comment-dot {
+  position: relative;
+  display: inline-block;
+  width: 2em;
+  height: 2em;
+  line-height: 2em;
+  vertical-align: middle;
+}
+
+.comment-dot .fa-circle {
+  color: #FF9052;
+}
+
+.comment-dot .fa-circle:before {
+  content: "\f111";
+}
+
+.comment-dot .fa-crosshairs {
+  color: #fff;
+}
+
+.comment-dot .fa-crosshairs:before {
+  content: "\f05b";
+}
+
+.comment-item .arrow {
+  border-width: 8px;
+  z-index: 10;
+  position: absolute;
+  display: block;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+}
+
+.comment-item .arrow.left {
+  top: 13px;
+  left: 39px;
+  margin-top: -8px;
+  border-left-width: 0;
+  border-right-color: rgba(0,0,0,0.1);
+}
+
+.comment-item .arrow, .comment-item .arrow:after {
+  position: absolute;
+  display: block;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+}
+
+.arrow.left::after {
+  content: " ";
+  left: 1px;
+  border-left-width: 0;
+  bottom: -7px;
+}
+
+.comment-item .arrow.left::after {
+  border-right-color: #f7fbfe;
+}
+
+.arrow::after {
+  border-width: 7px;
+}
+
+.arrow, .arrow::after {
+  position: absolute;
+  display: block;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+}
+
+.comment-body {
+  border: 1px solid #d7e8f4;
+  background-color: #f7fbfe;
+  border-radius: 5px;
+  padding: 5px;
+  margin-left: 46px;
+  margin-bottom: 20px;
+  box-shadow: 0 1px 1px rgba(0,0,0,0.05);
+}
+
+.comment-body--hd {
+  background-color: transparent;
+  font-size: 12px;
+  position: relative;
+  color: #333333;
+  border-color: #ddd;
+  padding: 10px 15px;
+}
+
+.comment-body--hd h3.user {
+  margin: 0;
+}
+
+.comment-body--hd .user img {
+  width: 27px;
+  height: 27px;
+  border-radius: 50%;
+  vertical-align: middle;
+}
+
+.comment-body--hd .user span {
+  font-size: 14px;
+  font-weight: normal;
+}
+
+.comment-body--hd span.time {
+  font-size: 12px;
+  margin-left: 10px;
+}
+
+.time-dropdown {
+  position: relative;
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 5px;
+  margin-left: 2px;
+}
+
+.time-dropdown:hover {
+  cursor: pointer;
+}
+
+.time-dropdown .dropdown-list {
+    min-width: 150px;
+    font-size: 13px;
+    border-radius: 2px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    border: 1px solid rgba(0,0,0,0.1);
+    position: absolute;
+    top: 100%;
+    z-index: 1000;
+    /* display: none; */
+    float: left;
+    left: auto;
+    right: 0;
+    min-width: 160px;
+    padding: 5px 0;
+    margin: 2px 0 0;
+    list-style: none;
+    text-align: left;
+    background-color: #fff;
+    background-clip: padding-box;
+}
+
+.time-dropdown .dropdown-list li a{
+  font-size: 14px;
+  padding: 5px 15px;
+  cursor: pointer;
+  font-weight: normal;
+  color: #333333 !important;
+  white-space: nowrap;
+}
+
+.comment-body--bd p {
+  padding-right: 15px;
+  padding-left: 15px;
+  font-size: 14px;
+  word-break: break-all;
+}
+
+.comment-body-main .comment-body--img {
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-bottom: 5px;
+}
+
+.comment-body-main .comment-body--img img {
+  max-width: 50%;
+  max-height: 300px;
+  vertical-align: middle;
+}
+
+.comment-body--bd .tools {
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-bottom:10px; 
+  font-size: 14px;
+  line-height: 30px;
+}
+
+.comment-body--bd .reply-lists {
+  padding-right: 15px;
+  padding-left: 15px;
+  padding-top: 8px;
+  padding-bottom: 4px;
+  margin-top: 10px;
+}
+
+.reply-lists-item article {
+  margin-top: 0;
+  position: relative;
+}
+
+.reply-lists-item article .reply-item-img {
+  width: 27px;
+  height: 27px;
+  border-radius: 6px;
+  max-width: 100%;
+  vertical-align: middle;
+}
+
+.comment-body--bd .tools .comment-btn a {
+  font-size: 13px;
+  line-height: 18px;
+  padding: 5px 12px;
+  border-radius: 2px;
+  color: #717171 !important;
+  background-color: #fafafa !important;
+  display: inline-block;
+  margin-bottom: 0;
+  font-weight: normal;
+  text-align: center;
+  vertical-align: middle;
+  cursor: pointer;
+  background-image: none;
+  border: 1px solid #ccc;
+  white-space: nowrap;
+  user-select: none;
+}
+
+.comment-body--bd a {
+  color: #FF9052 !important;
+  user-select: none;
+}
+
+.comment-body a:link {
+  background: none;
+}
+
+.comment-body--bd .reply {
+  padding-right: 15px;
+  padding-left: 15px;
+  padding-top: 8px;
+  padding-bottom: 4px;
+}
+
+.comment-body--bd .reply .reply-input {
+  position: relative;
+  display: table;
+  border-collapse: separate;
+  padding-bottom: 8px;
+}
+
+.comment-body--bd .reply .reply-input input {
+  display: table-cell;
+  width: 100%;
+  position: relative;
+  z-index: 2;
+  float: left;
+  margin-bottom: 0;
+  height: 30px;
+  padding: 0 12px;
+  line-height: 1.428571429;
+  color: #323232;
+  background-color: #fff;
+  border: 1px solid #d8dde5;
+  transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+}
+
+input:focus {
+  box-shadow: none;
+  outline: 0 auto -webkit-focus-ring-color;
+  outline-offset: 0;
+}
+
+.comment-body--bd .reply .reply-input .reply-btn {
+  display: table-cell;
+  position: relative;
+  font-size: 0;
+  white-space: nowrap;
+  width: 1%;
+  vertical-align: middle;
+}
+
+.comment-body--bd .reply .reply-input .reply-btn button {
+  margin-left: -1px;
+  height: 30px;
+  line-height: 18px;
+  padding: 5px 12px;
+  color: #fff;
+  background-color: #FF9052;
+  border-color: #FF9052;
+  font-size: 14px;
+}
+
+.comment-body--bd .reply .reply-input .reply-btn button:active {
+  box-shadow: inset 0 3px 5px rgba(0,0,0,0.125);
+}
+
+button:focus {
+  outline: 0 auto -webkit-focus-ring-color;
+  outline-offset: 0;
+}
+
