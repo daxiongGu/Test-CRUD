@@ -20,20 +20,4 @@ public class IndexController {
     public String index(){
         return "index";
     }
-
-    @GetMapping("/error_404")
-    public String notFoundError(){
-        return "404";
-    }
-
-    @GetMapping("/error_500")
-    public String serverError(){
-        return "500";
-    }
-
-    @GetMapping("/error_403")
-    public String forbiddenError(){
-        return "403";
-    }
-
 }

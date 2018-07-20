@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @SpringBootApplication
 @EnableScheduling
 @EnableTransactionManagement
-@MapperScan({"com.zhongfl.boss.bi.mapper.**"})
+@MapperScan({"com.zhongfl.fanhui.mapper.**"})
 public class Application {
 
     public static void main(String[] args) {
