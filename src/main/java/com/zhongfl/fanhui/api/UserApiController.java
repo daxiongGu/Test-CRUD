@@ -1,5 +1,6 @@
 package com.zhongfl.fanhui.api;
 
+import com.github.pagehelper.PageInfo;
 import com.zhongfl.fanhui.bean.User;
 import com.zhongfl.fanhui.bean.result.ResponseResult;
 import com.zhongfl.fanhui.service.UserService;
@@ -17,7 +18,7 @@ public class UserApiController {
 
     @PostMapping("/list")
     public ResponseResult list(@RequestBody User user){
-        List<User> list = userService.findList(user);
+        PageInfo<User> list = userService.findList(user);
         return new ResponseResult<>(list);
     }
 

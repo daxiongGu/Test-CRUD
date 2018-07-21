@@ -1,5 +1,7 @@
 package com.zhongfl.fanhui.service.impl;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.zhongfl.fanhui.bean.User;
 import com.zhongfl.fanhui.mapper.UserMapper;
 import com.zhongfl.fanhui.service.UserService;
@@ -20,9 +22,10 @@ public class UserServiceImpl  implements UserService {
     }
 
     @Override
-    public List<User> findList(User user) {
+    public PageInfo<User> findList(User user) {
+        PageHelper.startPage(user.getPage(),user.getPageSize());
         List<User> users = userMapper.select(user);
-        return users;
+        return new PageInfo<User>(users);
     }
 
     @Override

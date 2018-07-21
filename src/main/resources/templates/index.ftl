@@ -6,6 +6,7 @@
     <title>CURD</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <#include 'include/baselink.ftl'>
+    <link rel="stylesheet" type="text/css" href="<@s.url '/assets/css/jquery.pagination.css'/>">
 </head>
 <body class="dashboard-page">
 <div id="main">
@@ -105,6 +106,9 @@
                                 </table>
                             </div>
                         </div>
+                    </div>
+                    <div class="table-responsive">
+                        <div id="pageMenu"></div>
                     </div>
                 </div>
             </div>
@@ -208,77 +212,100 @@
     </div>
 </div>
 <#include 'include/footer_js.ftl'/>
+<script src="/assets/js/jquery.pagination-1.2.7.js"></script>
 <script>
     var app = new Vue({
-        el: '#main',
-        data: {
-            users: [],
-            searchInfo: {
-                realName: '',
-                gender: 0,
-                mobile: '',
-                nickName: ''
-            },
-            user: {},
-            insertUser: {}
-        },
-        created: function () {
-            this.findList();
-        },
-        mounted: function () {
-
-
-        },
-        computed: {},
-        watch: {
-            "searchInfo.realName": function () {
-                this.findList();
-            }
-        },
-        methods: {
-
-            findList: function () {
-                var url = "/api/user/list";
-                this.$http.post(url, this.searchInfo).then(function (response) {
-                    this.users = response.body.data;
-                    console.log(response);
-                }, function (error) {
-                    swal(error.body.msg);
-                });
-            },
-            update: function (user) {
-                console.log(user);
-                this.user = user;
-            },
-            updateStaff: function () {
-                var url = "/api/user/update";
-                this.$http.post(url, this.user).then(function (response) {
-                    sweetAlert("操作成功");
+                el: '#main',
+                data: {
+                    users: [],
+                    searchInfo: {
+                        realName: '',
+                        gender: 0,
+                        mobile: '',
+                        nickName: '',
+                        page: 1,
+                        pageSize: 10
+                    },
+                    user: {},
+                    insertUser: {}
+                },
+                created: function () {
+                    this.searchInfo.page = 1;
                     this.findList();
-                }, function (error) {
-                    swal(error.body.msg);
-                });
-            },
-            insert: function () {
-                var url = "/api/user/insert";
-                this.$http.post(url, this.insertUser).then(function (response) {
-                    sweetAlert("操作成功");
-                    this.findList();
-                }, function (error) {
-                    swal(error.body.msg);
-                });
-            },
-            del: function (id) {
-                var url = "/api/user/delete?id=" + id;
-                this.$http.get(url).then(function (response) {
-                    sweetAlert("操作成功");
-                    this.findList();
-                }, function (error) {
-                    swal(error.body.msg);
-                });
-            }
-        }
-    });
+                },
+                mounted: function () {},
+                computed: {},
+                watch: {
+                    "searchInfo.realName": function () {
+                        this.findList();
+                    }
+                },
+                methods: {
+                    findList: function () {
+                        this.searchInfo.page = 1;
+                        $('#pageMenu').page('destroy');
+                        this.query();
+                    },
+                    update: function (user) {
+                        console.log(user);
+                        this.user = user;
+                    },
+                    updateStaff: function () {
+                        var url = "/api/user/update";
+                        this.$http.post(url, this.user).then(function (response) {
+                            sweetAlert("操作成功");
+                            this.query();
+                        }, function (error) {
+                            swal(error.body.msg);
+                        });
+                    },
+                    insert: function () {
+                        var url = "/api/user/insert";
+                        this.$http.post(url, this.insertUser).then(function (response) {
+                            sweetAlert("操作成功");
+                            this.query();
+                        }, function (error) {
+                            swal(error.body.msg);
+                        });
+                    },
+                    del: function (id) {
+                        var url = "/api/user/delete?id=" + id;
+                        this.$http.get(url).then(function (response) {
+                            sweetAlert("操作成功");
+                            this.query();
+                        }, function (error) {
+                            swal(error.body.msg);
+                        });
+                    },
+                    query: function () {
+                        var url = "/api/user/list";
+                        this.$http.post(url, this.searchInfo).then(function (response) {
+                            this.users = response.body.data.list;
+                            console.log(response);
+                            var temp = this;
+                            $("#pageMenu").page({
+                                total: response.body.data.total,
+                                pageSize: response.body.data.pageSize,
+                                firstBtnText: '首页',
+                                lastBtnText: '尾页',
+                                prevBtnText: '上一页',
+                                nextBtnText: '下一页',
+                                showInfo: true,
+                                showJump: true,
+                                jumpBtnText: '跳转',
+                                infoFormat: '{start} ~ {end}条，共{total}条'
+                            }, response.body.data.page).on("pageClicked", function (event, pageIndex) {
+                                temp.searchInfo.page = pageIndex + 1;
+                            }).on('jumpClicked', function (event, pageIndex) {
+                                temp.searchInfo.page = pageIndex + 1;
+                            });
+                        }, function (error) {
+                            swal(error.body.msg);
+                        });
+                    }
+                }
+            })
+    ;
 </script>
 </body>
 </html>

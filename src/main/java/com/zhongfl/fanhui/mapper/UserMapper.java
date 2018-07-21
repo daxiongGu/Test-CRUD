@@ -14,5 +14,4 @@ public interface UserMapper {
 
      List<User> select(User user);
 
-
 }
