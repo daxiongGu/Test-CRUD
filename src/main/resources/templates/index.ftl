@@ -19,6 +19,45 @@
                         </div>
                     </div>
                     <div class="panel-body">
+                        <div class="form-inline">
+                            <div class="form-group">
+                                <div class="input-group input-group-sm">
+                                    <div class="input-group-addon btn btn-default">姓名：</div>
+                                    <input type="text" class="form-control input-sm w200" placeholder="请输入姓名"
+                                           v-model="searchInfo.realName">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="input-group input-group-sm">
+                                    <div class="input-group-addon btn btn-default">昵称：</div>
+                                    <input type="text" class="form-control input-sm" placeholder="请输入昵称"
+                                           v-model="searchInfo.nickName">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="input-group input-group-sm">
+                                    <div class="input-group-addon btn btn-default">电话：</div>
+                                    <input type="text" class="form-control input-sm" placeholder="请输入电话"
+                                           v-model="searchInfo.mobile">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="input-group input-group-sm">
+                                    <div class="input-group-addon btn btn-default">性别：</div>
+                                    <select name="selectGender" v-model="searchInfo.gender"
+                                            class="form-control input-sm">
+                                        <option value="1">男</option>
+                                        <option value="0">女</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <button type="button" class="btn btn-sm btn-success" @click="findList">查询</button>
+                            <button class="btn btn-danger btn-sm " data-target="#insert_model" data-toggle="modal">
+                                <span class="fa fa-plus"> 添加</span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="panel-body">
                         <div class="row">
                             <div class="col-md-12">
                                 <table class="table table-hover" id="users_table">
@@ -53,8 +92,8 @@
                                         <td>{{user.nickName}}</td>
                                         <td>{{user.createdBy}}</td>
                                         <td>
-                                            <button class="btn btn-primary btn-sm "@click="update(user)"
-                                                    data-target="#update_model"data-toggle="modal">
+                                            <button class="btn btn-primary btn-sm " @click="update(user)"
+                                                    data-target="#update_model" data-toggle="modal">
                                                 <span class="fa fa-pencil"> 编辑</span>
                                             </button>
                                             <button class="btn btn-danger btn-sm " @click="del(user.id)">
@@ -66,12 +105,6 @@
                                 </table>
                             </div>
                         </div>
-                    </div>
-
-                    <div class="panel-footer" align="right">
-                        <button class="btn btn-danger btn-sm " data-target="#insert_model" data-toggle="modal">
-                            <span class="fa fa-plus"> 添加</span>
-                        </button>
                     </div>
                 </div>
             </div>
@@ -92,9 +125,12 @@
                         <label for="exampleInputEmail1">姓名</label>
                         <input type="text" class="form-control" v-model="user.realName">
                     </div>
-                    <div class="form-group">
+                    <div class="form-group" style="margin-bottom: 5px">
                         <label for="exampleInputPassword1">性别</label>
-                        <input type="text" class="form-control" v-model="user.gender">
+                    </div>
+                    <div style="margin-bottom: 5px ">
+                        <input type="radio" value="1" v-model="user.gender"> 男
+                        <input type="radio" value="0" v-model="user.gender" style="margin-left: 10px"> 女
                     </div>
                     <div class="form-group">
                         <label for="exampleInputPassword1">年龄</label>
@@ -116,7 +152,8 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
                     <button type="button" class="btn btn-primary" @click="updateStaff"
-                            data-dismiss="modal"> 保存</button>
+                            data-dismiss="modal"> 保存
+                    </button>
                 </div>
             </div>
         </div>
@@ -136,9 +173,12 @@
                         <label for="exampleInputEmail1">姓名</label>
                         <input type="text" class="form-control" v-model="insertUser.realName">
                     </div>
-                    <div class="form-group">
+                    <div class="form-group" style="margin-bottom: 5px">
                         <label for="exampleInputPassword1">性别</label>
-                        <input type="text" class="form-control" v-model="insertUser.gender">
+                    </div>
+                    <div style="margin-bottom: 5px">
+                        <input type="radio" value="1" v-model="insertUser.gender">男
+                        <input type="radio" value="0" v-model="insertUser.gender" style="margin-left: 10px">女
                     </div>
                     <div class="form-group">
                         <label for="exampleInputPassword1">年龄</label>
@@ -160,7 +200,8 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
                     <button type="button" class="btn btn-primary" @click="insert"
-                            data-dismiss="modal"> 保存</button>
+                            data-dismiss="modal"> 保存
+                    </button>
                 </div>
             </div>
         </div>
@@ -174,9 +215,8 @@
             users: [],
             searchInfo: {
                 realName: '',
-                age: '',
+                gender: 0,
                 mobile: '',
-                gender: '',
                 nickName: ''
             },
             user: {},
@@ -190,7 +230,11 @@
 
         },
         computed: {},
-        watch: {},
+        watch: {
+            "searchInfo.realName": function () {
+                this.findList();
+            }
+        },
         methods: {
 
             findList: function () {
@@ -210,6 +254,7 @@
                 var url = "/api/user/update";
                 this.$http.post(url, this.user).then(function (response) {
                     sweetAlert("操作成功");
+                    this.findList();
                 }, function (error) {
                     swal(error.body.msg);
                 });
@@ -223,7 +268,7 @@
                     swal(error.body.msg);
                 });
             },
-            del:function (id) {
+            del: function (id) {
                 var url = "/api/user/delete?id=" + id;
                 this.$http.get(url).then(function (response) {
                     sweetAlert("操作成功");

@@ -26,4 +26,7 @@ public class User implements Serializable {
 
     private Date createdTime;
 
+    private Integer page;
+
+    private Integer pageSize;
 }
