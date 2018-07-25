@@ -13,11 +13,11 @@ public class IndexController {
 
     @GetMapping("/")
     public String root(){
-        return "index";
+        return "index1";
     }
 
     @GetMapping("/index")
     public String index(){
-        return "index";
+        return "index1";
     }
 }

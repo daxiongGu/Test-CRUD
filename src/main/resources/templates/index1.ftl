@@ -56,6 +56,9 @@
                             <button class="btn btn-danger btn-sm " data-target="#insert_model" data-toggle="modal">
                                 <span class="fa fa-plus"> 添加</span>
                             </button>
+                            <button class="btn btn-danger btn-sm " @click="deleteSome(userIds)">
+                                <span class="fa fa-trash"> 删除选中</span>
+                            </button>
                         </div>
                     </div>
                     <div class="panel-body">
@@ -65,7 +68,8 @@
                                     <thead>
                                     <tr>
                                         <th>
-                                            <input type="checkbox" id="check_all"/>
+                                            <input type="checkbox" id="check_all" @click="checkedAll"
+                                                   :checked="users.length===userIds.length && userIds.length"/>
                                         </th>
                                         <th>#</th>
                                         <th>姓名</th>
@@ -80,7 +84,8 @@
                                     <tbody>
                                     <tr v-for="user in users">
                                         <td>
-                                            <input type='checkbox' class='check_item'/>
+                                            <input type='checkbox' class='check_item' @click="checkedOne(user.id)"
+                                                   :checked="userIds.indexOf(user.id)>=0"/>
                                         </td>
                                         <td>{{user.id}}</td>
                                         <td>{{user.realName}}</td>
@@ -104,11 +109,11 @@
                                     </tr>
                                     </tbody>
                                 </table>
+                                <div class="table-responsive" style="margin-top: 10px ">
+                                    <div id="pageMenu"></div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="table-responsive">
-                        <div id="pageMenu"></div>
                     </div>
                 </div>
             </div>
@@ -220,20 +225,23 @@
                     users: [],
                     searchInfo: {
                         realName: '',
-                        gender: 0,
+                        gender: '',
                         mobile: '',
                         nickName: '',
                         page: 1,
-                        pageSize: 10
+                        pageSize: 5
                     },
                     user: {},
-                    insertUser: {}
+                    insertUser: {},
+                    userIds: [],
+                    isCheckedAll: false
                 },
                 created: function () {
                     this.searchInfo.page = 1;
                     this.findList();
                 },
-                mounted: function () {},
+                mounted: function () {
+                },
                 computed: {},
                 watch: {
                     "searchInfo.realName": function () {
@@ -254,7 +262,7 @@
                         var url = "/api/user/update";
                         this.$http.post(url, this.user).then(function (response) {
                             sweetAlert("操作成功");
-                            this.query();
+                            this.findList();
                         }, function (error) {
                             swal(error.body.msg);
                         });
@@ -263,7 +271,7 @@
                         var url = "/api/user/insert";
                         this.$http.post(url, this.insertUser).then(function (response) {
                             sweetAlert("操作成功");
-                            this.query();
+                            this.findList();
                         }, function (error) {
                             swal(error.body.msg);
                         });
@@ -272,7 +280,35 @@
                         var url = "/api/user/delete?id=" + id;
                         this.$http.get(url).then(function (response) {
                             sweetAlert("操作成功");
-                            this.query();
+                            this.findList();
+                        }, function (error) {
+                            swal(error.body.msg);
+                        });
+                    },
+                    checkedOne: function (userId) {
+                        let idIndex = this.userIds.indexOf(userId)
+                        if (idIndex >= 0) {//如果已经包含就去除
+                            this.userIds.splice(idIndex, 1)
+                        } else {//如果没有包含就添加
+                            this.userIds.push(userId)
+                        }
+                    },
+                    checkedAll: function (e) {
+                        this.isCheckedAll = e.target.checked;
+                        if (this.isCheckedAll) {//全选时
+                            this.userIds = []
+                            this.users.forEach(item => {
+                                this.userIds.push(item.id)
+                            })
+                        } else {
+                            this.userIds = []
+                        }
+                    },
+                    deleteSome: function (ids) {
+                        var url = "/api/user/deleteSome?ids=" + ids;
+                        this.$http.post(url).then(function (response) {
+                            sweetAlert("操作成功");
+                            this.findList();
                         }, function (error) {
                             swal(error.body.msg);
                         });

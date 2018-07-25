@@ -32,6 +32,9 @@
             <if test="nickName != null and nickName != ''">
                 nick_name = #{nickName},
             </if>
+            <if test="createdBy != null and createdBy != ''">
+                created_by = #{createdBy},
+            </if>
         </set>
         WHERE id = #{id}
     </update>

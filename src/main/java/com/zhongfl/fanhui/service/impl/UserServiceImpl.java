@@ -13,6 +13,7 @@ import java.util.List;
 @Service
 public class UserServiceImpl  implements UserService {
 
+
     @Resource
     private UserMapper userMapper;
 
@@ -38,5 +39,12 @@ public class UserServiceImpl  implements UserService {
         userMapper.updateById(user);
     }
 
+    @Override
+    public void deleteSome(String ids) {
+        String[] ss = ids.split(",");
+        for(String s : ss){
+            userMapper.deleteById(Integer.parseInt(s));
+        }
+    }
 
 }

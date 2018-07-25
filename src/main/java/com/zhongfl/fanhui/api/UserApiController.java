@@ -40,4 +40,10 @@ public class UserApiController {
         return new ResponseResult();
     }
 
+    @PostMapping("/deleteSome")
+    public ResponseResult deleteSome(String ids){
+        userService.deleteSome(ids);
+        return new ResponseResult();
+    }
+
 }
