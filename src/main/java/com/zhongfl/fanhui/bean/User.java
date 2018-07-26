@@ -20,6 +20,8 @@ public class User implements Serializable {
 
     private String nickName;
 
+    private  String department;
+
     private Integer deleted;
 
     private String createdBy;

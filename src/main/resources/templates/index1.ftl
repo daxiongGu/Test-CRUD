@@ -52,7 +52,16 @@
                                     </select>
                                 </div>
                             </div>
-                            <button type="button" class="btn btn-sm btn-success" @click="findList">查询</button>
+                            <div class="form-group">
+                                <div class="input-group input-group-sm">
+                                    <div class="input-group-addon btn btn-default">部门：</div>
+                                    <input type="text" class="form-control input-sm" placeholder="请输入所在部门"
+                                           v-model="searchInfo.department">
+                                </div>
+                            </div>
+                            <button type="button" class="btn btn-sm btn-success" @click="findList">
+                                <span class="fa fa-tasks">查询</span>
+                            </button>
                             <button class="btn btn-danger btn-sm " data-target="#insert_model" data-toggle="modal">
                                 <span class="fa fa-plus"> 添加</span>
                             </button>
@@ -77,6 +86,7 @@
                                         <th>年龄</th>
                                         <th>电话</th>
                                         <th>昵称</th>
+                                        <th>部门</th>
                                         <th>创建人</th>
                                         <th>操作</th>
                                     </tr>
@@ -96,6 +106,7 @@
                                         <td>{{user.age}}</td>
                                         <td>{{user.mobile}}</td>
                                         <td>{{user.nickName}}</td>
+                                        <td>{{user.department}}</td>
                                         <td>{{user.createdBy}}</td>
                                         <td>
                                             <button class="btn btn-primary btn-sm " @click="update(user)"
@@ -154,6 +165,10 @@
                         <input type="text" class="form-control" v-model="user.nickName">
                     </div>
                     <div class="form-group">
+                        <label for="exampleInputPassword1">部门</label>
+                        <input type="text" class="form-control" v-model="user.department">
+                    </div>
+                    <div class="form-group">
                         <label for="exampleInputPassword1">创建人</label>
                         <input type="text" class="form-control" v-model="user.createdBy">
                     </div>
@@ -202,6 +217,10 @@
                         <input type="text" class="form-control" v-model="insertUser.nickName">
                     </div>
                     <div class="form-group">
+                        <label for="exampleInputPassword1">部门</label>
+                        <input type="text" class="form-control" v-model="insertUser.department">
+                    </div>
+                    <div class="form-group">
                         <label for="exampleInputPassword1">创建人</label>
                         <input type="text" class="form-control" v-model="insertUser.createdBy">
                     </div>
@@ -228,6 +247,7 @@
                         gender: '',
                         mobile: '',
                         nickName: '',
+                        department:'',
                         page: 1,
                         pageSize: 5
                     },
@@ -340,8 +360,7 @@
                         });
                     }
                 }
-            })
-    ;
+            });
 </script>
 </body>
 </html>

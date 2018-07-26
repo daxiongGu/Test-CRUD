@@ -11,13 +11,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class IndexController {
 
-    @GetMapping("/")
-    public String root(){
-        return "index1";
-    }
-
     @GetMapping("/index")
     public String index(){
         return "index1";
+    }
+
+    @GetMapping("/department")
+    public String dep(){
+        return "department";
     }
 }

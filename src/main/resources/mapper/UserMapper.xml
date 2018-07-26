@@ -3,12 +3,12 @@
 <mapper namespace="com.zhongfl.fanhui.mapper.UserMapper" >
 
     <sql id="Base_Column_List">
-      id, real_name, age, gender, mobile, nick_name, deleted, created_by, created_time
+      id, real_name, age, gender, mobile, nick_name, department, deleted, created_by, created_time
     </sql>
 
     <insert id="insert">
-        INSERT INTO tb_staff (real_name, gender, age, mobile, nick_name, created_by, created_time)
-        VALUES (#{realName}, #{gender}, #{age}, #{mobile}, #{nickName}, #{createdBy}, now())
+        INSERT INTO tb_staff (real_name, gender, age, mobile, nick_name, department, created_by, created_time)
+        VALUES (#{realName}, #{gender}, #{age}, #{mobile}, #{nickName}, #{department}, #{createdBy}, now())
     </insert>
 
     <update id="deleteById">
@@ -31,6 +31,9 @@
             </if>
             <if test="nickName != null and nickName != ''">
                 nick_name = #{nickName},
+            </if>
+            <if test="department != null and department != ''">
+                department = #{department},
             </if>
             <if test="createdBy != null and createdBy != ''">
                 created_by = #{createdBy},
@@ -59,6 +62,9 @@
             </if>
             <if test="nickName != null and nickName != ''">
                 AND nick_name LIKE concat('%',#{nickName},'%')
+            </if>
+            <if test="department != null and department != ''">
+                AND department LIKE concat('%',#{department},'%')
             </if>
         </where>
     </select>

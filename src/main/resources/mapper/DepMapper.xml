@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhongfl.fanhui.mapper.DepMapper" >
+    <sql id="Base_Column_List">
+        id, `name`, detail, deleted
+    </sql>
+
+    <update id="update">
+        UPDATE tb_department,tb_staff
+        <set>
+            <if test="name != null and name != ''">
+                tb_department.`name` = #{name},
+            </if>
+            <if test="detail != null and detail != ''">
+                tb_department.detail = #{detail},
+            </if>
+            tb_staff.department = #{name}
+        </set>
+        WHERE tb_department.id = #{id} AND tb_department.name = tb_staff.department
+    </update>
+
+    <update id="delete">
+        UPDATE tb_staff ,tb_department
+        <set>
+            tb_department.deleted = 1,
+            tb_staff.department = '部门不存在',
+        </set>
+        WHERE tb_department.id = #{id} AND tb_department.name = tb_staff.department
+    </update>
+
+    <select id="list" resultType="com.zhongfl.fanhui.bean.Department">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM tb_department
+        WHERE deleted = 0
+    </select>
+
+</mapper>
