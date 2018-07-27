@@ -19,6 +19,11 @@
                             部门列表
                         </div>
                     </div>
+                    <div style="margin-left: 950px">
+                        <button class="btn btn-danger btn-sm " data-target="#insert_model" data-toggle="modal">
+                            <span class="fa fa-plus"> 添加</span>
+                        </button>
+                    </div>
                     <div class="panel-body">
                         <div class="row">
                             <div class="col-md-12">
@@ -32,16 +37,17 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr v-for="department in departments">
-                                        <td>{{department.id}}</td>
-                                        <td>{{department.name}}</td>
-                                        <td>{{department.detail}}</td>
+                                    <tr v-for="oldDept in departments">
+                                        <td>{{oldDept.id}}</td>
+                                        <td>{{oldDept.name}}</td>
+                                        <td>{{oldDept.detail}}</td>
                                         <td>
-                                            <button class="btn btn-primary btn-sm " @click="update(department)"
+                                            <button class="btn btn-primary btn-sm " @click="update(oldDept)"
                                                     data-target="#update_model" data-toggle="modal">
                                                 <span class="fa fa-pencil">修改</span>
                                             </button>
-                                            <button class="btn btn-danger btn-sm " @click="del(department.id)">
+                                            <button class="btn btn-danger btn-sm " @click="updateDept(oldDept)"
+                                                    data-target="#delete_model" data-toggle="modal">
                                                 <span class="fa fa-trash"> 删除</span>
                                             </button>
                                         </td>
@@ -56,7 +62,7 @@
         </section>
     </section>
 
-    <#--修改-->
+<#--修改-->
     <div class="modal fade" id="update_model" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -84,6 +90,64 @@
             </div>
         </div>
     </div>
+
+<#--添加-->
+    <div class="modal fade" id="insert_model" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">添加部门</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">名称</label>
+                        <input type="text" class="form-control" v-model="insertInfo.name">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputPassword1">详情</label>
+                        <input type="text" class="form-control" v-model="insertInfo.detail">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary" @click="insertStaff"
+                            data-dismiss="modal"> 保存
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<#--删除-->
+    <div class="modal fade" id="delete_model" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">员工安排部门</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <table for="exampleInputEmail1">选择部门
+                            <select name="selectDep" class="form-control input-sm" v-model="newDeptId">
+                                <option v-for="newDept in departments" :value="newDept.id">{{newDept.name}}</option>
+                            </select>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary" @click="del(updatedDept.id)"
+                            data-dismiss="modal"> 确认
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
 <#include 'include/footer_js.ftl'/>
 <script src="/assets/js/jquery.pagination-1.2.7.js"></script>
@@ -91,33 +155,42 @@
     var app = new Vue({
         el: '#main',
         data: {
-            departments:[],
-            searchInfo:{
-                id:'',
-                name:'',
-                detail:''
+            departments: [],
+            searchInfo: {
+                id: '',
+                name: '',
+                detail: ''
             },
-            department:{}
+            department: {},
+            insertInfo: {},
+            updatedDept: {},
+            newDeptId: ''
         },
         created: function () {
             this.findList();
         },
         mounted: function () {
-            
-        },
-        computed:{},
-        watch:{
 
         },
-        methods:{
+        computed: {},
+        watch: {
+            "searchInfo.name": function () {
+                this.findList();
+            }
+        },
+        methods: {
             findList: function () {
                 var url = "/api/dep/list";
-                this.$http.post(url,this.searchInfo).then(function (response) {
+                this.$http.post(url, this.searchInfo).then(function (response) {
                     this.departments = response.body.data;
-                    console.log(response);
-                },function (error) {
+                    console.log(this.departments);
+                }, function (error) {
                     swal(error.body.msg);
                 });
+            },
+            updateDept: function(oldDept){
+                console.log(oldDept);
+                this.updatedDept = oldDept;
             },
             update: function (department) {
                 console.log(department);
@@ -132,15 +205,25 @@
                     swal(error.body.msg);
                 });
             },
-            del: function (id) {
-                var url = "/api/dep/delete?id=" + id;
+            del: function (oldId) {
+                console.log(oldId);
+                console.log(this.newDeptId);
+                var url = "/api/dep/delete?oldId=" + oldId + "&newId=" + this.newDeptId ;
                 this.$http.get(url).then(function (response) {
-                    sweetAlert("本部门员工将移除");
                     this.findList();
                 }, function (error) {
                     swal(error.body.msg);
                 });
             },
+            insertStaff: function () {
+                var url = "/api/dep/insert";
+                this.$http.post(url, this.insertInfo).then(function (response) {
+                    sweetAlert("操作成功");
+                    this.findList();
+                }, function (error) {
+                    swal(error.body.msg);
+                });
+            }
         }
     });
 </script>

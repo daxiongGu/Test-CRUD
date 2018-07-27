@@ -10,5 +10,7 @@ public interface DepService {
 
     void update(Department department);
 
-    void delete(Integer id);
+    void delete(Integer oldId,Integer newId);
+
+    void insert(Department department);
 }

@@ -10,5 +10,7 @@ public interface DepMapper {
 
     void update(Department department);
 
-    void delete(Integer id);
+    void delete(Integer oldId);
+
+    void insert(Department department);
 }

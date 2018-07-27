@@ -3,7 +3,7 @@
 <html lang="zh_CN">
 <head>
     <meta charset="utf-8">
-    <title>CURD</title>
+    <title>员工列表</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <#include 'include/baselink.ftl'>
     <link rel="stylesheet" type="text/css" href="<@s.url '/assets/css/jquery.pagination.css'/>">
@@ -16,7 +16,7 @@
                 <div class="panel">
                     <div class="panel-body">
                         <div class="tab-content pn br-n">
-                            CRUD
+                            员工列表
                         </div>
                     </div>
                     <div class="panel-body">
@@ -55,8 +55,11 @@
                             <div class="form-group">
                                 <div class="input-group input-group-sm">
                                     <div class="input-group-addon btn btn-default">部门：</div>
-                                    <input type="text" class="form-control input-sm" placeholder="请输入所在部门"
-                                           v-model="searchInfo.department">
+                                    <select name="selectDep" v-model="searchInfo.deptId" class="form-control input-sm">
+                                        <option v-for="department in departments" :value="department.id">
+                                            {{department.name}}
+                                        </option>
+                                    </select>
                                 </div>
                             </div>
                             <button type="button" class="btn btn-sm btn-success" @click="findList">
@@ -106,7 +109,7 @@
                                         <td>{{user.age}}</td>
                                         <td>{{user.mobile}}</td>
                                         <td>{{user.nickName}}</td>
-                                        <td>{{user.department}}</td>
+                                        <td>{{user.deptName}}</td>
                                         <td>{{user.createdBy}}</td>
                                         <td>
                                             <button class="btn btn-primary btn-sm " @click="update(user)"
@@ -166,7 +169,7 @@
                     </div>
                     <div class="form-group">
                         <label for="exampleInputPassword1">部门</label>
-                        <input type="text" class="form-control" v-model="user.department">
+                        <input type="text" class="form-control" v-model="user.deptId">
                     </div>
                     <div class="form-group">
                         <label for="exampleInputPassword1">创建人</label>
@@ -218,7 +221,7 @@
                     </div>
                     <div class="form-group">
                         <label for="exampleInputPassword1">部门</label>
-                        <input type="text" class="form-control" v-model="insertUser.department">
+                        <input type="text" class="form-control" v-model="insertUser.deptId">
                     </div>
                     <div class="form-group">
                         <label for="exampleInputPassword1">创建人</label>
@@ -239,128 +242,147 @@
 <script src="/assets/js/jquery.pagination-1.2.7.js"></script>
 <script>
     var app = new Vue({
-                el: '#main',
-                data: {
-                    users: [],
-                    searchInfo: {
-                        realName: '',
-                        gender: '',
-                        mobile: '',
-                        nickName: '',
-                        department:'',
-                        page: 1,
-                        pageSize: 5
-                    },
-                    user: {},
-                    insertUser: {},
-                    userIds: [],
-                    isCheckedAll: false
-                },
-                created: function () {
-                    this.searchInfo.page = 1;
+        el: '#main',
+        data: {
+            users: [],
+            searchInfo: {
+                realName: '',
+                gender: '',
+                mobile: '',
+                nickName: '',
+                deptId: '',
+                deptName:'',
+                page: 1,
+                pageSize: 5
+            },
+            user: {},
+            insertUser: {},
+            userIds: [],
+            a: {
+                id: '',
+                name: ''
+            },
+            departments: [],
+            isCheckedAll: false
+        },
+        created: function () {
+            this.searchInfo.page = 1;
+            this.findList();
+            this.findDep();
+        },
+        mounted: function () {
+        },
+        computed: {},
+        watch: {
+            "searchInfo.realName": function () {
+                this.findList();
+            },
+            "searchInfo.page": function () {
+                this.query();
+            }
+        },
+        methods: {
+            findDep: function () {
+                var url = "/api/user/findDep";
+                this.$http.post(url).then(function (response) {
+                    this.departments = response.body.data;
+                    console.log(response);
+                }, function (error) {
+                    swal(error.body.msg);
+                });
+            },
+            findList: function () {
+                this.searchInfo.page = 1;
+                $('#pageMenu').page('destroy');
+                this.query();
+            },
+            update: function (user) {
+                console.log(user);
+                this.user = user;
+            },
+            updateStaff: function () {
+                var url = "/api/user/update";
+                this.$http.post(url, this.user).then(function (response) {
+                    sweetAlert("操作成功");
                     this.findList();
-                },
-                mounted: function () {
-                },
-                computed: {},
-                watch: {
-                    "searchInfo.realName": function () {
-                        this.findList();
-                    }
-                },
-                methods: {
-                    findList: function () {
-                        this.searchInfo.page = 1;
-                        $('#pageMenu').page('destroy');
-                        this.query();
-                    },
-                    update: function (user) {
-                        console.log(user);
-                        this.user = user;
-                    },
-                    updateStaff: function () {
-                        var url = "/api/user/update";
-                        this.$http.post(url, this.user).then(function (response) {
-                            sweetAlert("操作成功");
-                            this.findList();
-                        }, function (error) {
-                            swal(error.body.msg);
-                        });
-                    },
-                    insert: function () {
-                        var url = "/api/user/insert";
-                        this.$http.post(url, this.insertUser).then(function (response) {
-                            sweetAlert("操作成功");
-                            this.findList();
-                        }, function (error) {
-                            swal(error.body.msg);
-                        });
-                    },
-                    del: function (id) {
-                        var url = "/api/user/delete?id=" + id;
-                        this.$http.get(url).then(function (response) {
-                            sweetAlert("操作成功");
-                            this.findList();
-                        }, function (error) {
-                            swal(error.body.msg);
-                        });
-                    },
-                    checkedOne: function (userId) {
-                        let idIndex = this.userIds.indexOf(userId)
-                        if (idIndex >= 0) {//如果已经包含就去除
-                            this.userIds.splice(idIndex, 1)
-                        } else {//如果没有包含就添加
-                            this.userIds.push(userId)
-                        }
-                    },
-                    checkedAll: function (e) {
-                        this.isCheckedAll = e.target.checked;
-                        if (this.isCheckedAll) {//全选时
-                            this.userIds = []
-                            this.users.forEach(item => {
-                                this.userIds.push(item.id)
-                            })
-                        } else {
-                            this.userIds = []
-                        }
-                    },
-                    deleteSome: function (ids) {
-                        var url = "/api/user/deleteSome?ids=" + ids;
-                        this.$http.post(url).then(function (response) {
-                            sweetAlert("操作成功");
-                            this.findList();
-                        }, function (error) {
-                            swal(error.body.msg);
-                        });
-                    },
-                    query: function () {
-                        var url = "/api/user/list";
-                        this.$http.post(url, this.searchInfo).then(function (response) {
-                            this.users = response.body.data.list;
-                            console.log(response);
-                            var temp = this;
-                            $("#pageMenu").page({
-                                total: response.body.data.total,
-                                pageSize: response.body.data.pageSize,
-                                firstBtnText: '首页',
-                                lastBtnText: '尾页',
-                                prevBtnText: '上一页',
-                                nextBtnText: '下一页',
-                                showInfo: true,
-                                showJump: true,
-                                jumpBtnText: '跳转',
-                                infoFormat: '{start} ~ {end}条，共{total}条'
-                            }, response.body.data.page).on("pageClicked", function (event, pageIndex) {
-                                temp.searchInfo.page = pageIndex + 1;
-                            }).on('jumpClicked', function (event, pageIndex) {
-                                temp.searchInfo.page = pageIndex + 1;
-                            });
-                        }, function (error) {
-                            swal(error.body.msg);
-                        });
-                    }
+                }, function (error) {
+                    swal(error.body.msg);
+                });
+            },
+            insert: function () {
+                var url = "/api/user/insert";
+                this.$http.post(url, this.insertUser).then(function (response) {
+                    sweetAlert("操作成功");
+                    this.findList();
+                }, function (error) {
+                    swal(error.body.msg);
+                });
+            },
+            del: function (id) {
+                var url = "/api/user/delete?id=" + id;
+                this.$http.get(url).then(function (response) {
+                    sweetAlert("操作成功");
+                    this.findList();
+                }, function (error) {
+                    swal(error.body.msg);
+                });
+            },
+            checkedOne: function (userId) {
+                let idIndex = this.userIds.indexOf(userId)
+                if (idIndex >= 0) {//如果已经包含就去除
+                    this.userIds.splice(idIndex, 1)
+                } else {//如果没有包含就添加
+                    this.userIds.push(userId)
                 }
-            });
+            },
+            checkedAll: function (e) {
+                this.isCheckedAll = e.target.checked;
+                if (this.isCheckedAll) {//全选时
+                    this.userIds = []
+                    this.users.forEach(item => {
+                        this.userIds.push(item.id)
+                    })
+                } else {
+                    this.userIds = []
+                }
+            },
+            deleteSome: function (ids) {
+                var url = "/api/user/deleteSome?ids=" + ids;
+                this.$http.post(url).then(function (response) {
+                    sweetAlert("操作成功");
+                    this.findList();
+                }, function (error) {
+                    swal(error.body.msg);
+                });
+            },
+            query: function () {
+                var url = "/api/user/list";
+                this.$http.post(url, this.searchInfo).then(function (response) {
+                    this.users = response.body.data.list;
+                    console.log(response);
+                    var temp = this;
+                    $("#pageMenu").page({
+                        total: response.body.data.total,
+                        pageSize: response.body.data.pageSize,
+                        firstBtnText: '首页',
+                        lastBtnText: '尾页',
+                        prevBtnText: '上一页',
+                        nextBtnText: '下一页',
+                        showInfo: true,
+                        showJump: true,
+                        jumpBtnText: '跳转',
+                        infoFormat: '{start} ~ {end}条，共{total}条'
+                    }, response.body.data.page).on("pageClicked", function (event, pageIndex) {
+                        temp.searchInfo.page = pageIndex + 1;
+                    }).on('jumpClicked', function (event, pageIndex) {
+                        temp.searchInfo.page = pageIndex + 1;
+                    });
+                }, function (error) {
+                    swal(error.body.msg);
+                });
+            }
+        }
+    });
 </script>
 </body>
 </html>

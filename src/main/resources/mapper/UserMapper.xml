@@ -3,12 +3,16 @@
 <mapper namespace="com.zhongfl.fanhui.mapper.UserMapper" >
 
     <sql id="Base_Column_List">
-      id, real_name, age, gender, mobile, nick_name, department, deleted, created_by, created_time
+      id, real_name, age, gender, mobile, nick_name, dept_id, deleted, created_by, created_time
+    </sql>
+
+    <sql id="Department_List">
+        id, `name`
     </sql>
 
     <insert id="insert">
-        INSERT INTO tb_staff (real_name, gender, age, mobile, nick_name, department, created_by, created_time)
-        VALUES (#{realName}, #{gender}, #{age}, #{mobile}, #{nickName}, #{department}, #{createdBy}, now())
+        INSERT INTO tb_staff (real_name, gender, age, mobile, nick_name, dept_id,  created_by, created_time)
+        VALUES (#{realName}, #{gender}, #{age}, #{mobile}, #{nickName}, #{deptId}, #{createdBy}, now())
     </insert>
 
     <update id="deleteById">
@@ -32,9 +36,6 @@
             <if test="nickName != null and nickName != ''">
                 nick_name = #{nickName},
             </if>
-            <if test="department != null and department != ''">
-                department = #{department},
-            </if>
             <if test="createdBy != null and createdBy != ''">
                 created_by = #{createdBy},
             </if>
@@ -42,12 +43,17 @@
         WHERE id = #{id}
     </update>
 
+    <update id="updateDept">
+        UPDATE tb_staff
+        SET dept_id = #{newId}
+        WHERE dept_id = #{oldId}
+    </update>
+
     <select id="select" resultType="com.zhongfl.fanhui.bean.User">
-        SELECT
-        <include refid="Base_Column_List"/>
-        FROM tb_staff
+        SELECT s.id, s.real_name, s.age, s.gender, s.mobile, s.nick_name,s.dept_id, s.created_by, d.name AS deptName
+        FROM tb_staff AS s JOIN tb_department AS d ON s.dept_id = d.id
         <where>
-                deleted = 0
+                s.deleted = 0
             <if test="realName != null and realName != ''">
                 AND real_name LIKE concat('%',#{realName},'%')
             </if>
@@ -63,10 +69,19 @@
             <if test="nickName != null and nickName != ''">
                 AND nick_name LIKE concat('%',#{nickName},'%')
             </if>
-            <if test="department != null and department != ''">
-                AND department LIKE concat('%',#{department},'%')
+            <if test="deptId != null">
+                AND dept_id = #{deptId}
+            </if>
+            <if test="deptName != null and deptName != ''">
+                AND `name` LIKE concat('%',#{deptName},'%')
             </if>
         </where>
+    </select>
+
+    <select id="findDep" resultType="com.zhongfl.fanhui.bean.Department">
+        SELECT
+        <include refid="Department_List"/>
+        FROM tb_department
     </select>
 </mapper>
 

@@ -1,6 +1,7 @@
 package com.zhongfl.fanhui.api;
 
 import com.github.pagehelper.PageInfo;
+import com.zhongfl.fanhui.bean.Department;
 import com.zhongfl.fanhui.bean.User;
 import com.zhongfl.fanhui.bean.result.ResponseResult;
 import com.zhongfl.fanhui.service.UserService;
@@ -46,4 +47,9 @@ public class UserApiController {
         return new ResponseResult();
     }
 
+    @PostMapping("/findDep")
+    public ResponseResult findDep(/*@RequestBody Department department*/){
+        List<Department> dep = userService.findDep();
+        return new ResponseResult<>(dep);
+    }
 }

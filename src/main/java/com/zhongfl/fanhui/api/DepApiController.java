@@ -6,6 +6,7 @@ import com.zhongfl.fanhui.service.DepService;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -28,8 +29,14 @@ public class DepApiController {
     }
 
     @GetMapping("/delete")
-    public ResponseResult delete(Integer id){
-        depService.delete(id);
+    public ResponseResult delete(@Valid Integer oldId, @Valid Integer newId){
+        depService.delete(oldId,newId);
+        return new ResponseResult();
+    }
+
+    @PostMapping("/insert")
+    public ResponseResult insert(@RequestBody Department department){
+        depService.insert(department);
         return new ResponseResult();
     }
 }

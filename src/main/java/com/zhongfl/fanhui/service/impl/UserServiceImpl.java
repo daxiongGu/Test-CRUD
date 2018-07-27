@@ -2,6 +2,7 @@ package com.zhongfl.fanhui.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.zhongfl.fanhui.bean.Department;
 import com.zhongfl.fanhui.bean.User;
 import com.zhongfl.fanhui.mapper.UserMapper;
 import com.zhongfl.fanhui.service.UserService;
@@ -47,4 +48,9 @@ public class UserServiceImpl  implements UserService {
         }
     }
 
+    @Override
+    public List<Department> findDep() {
+        List<Department> departments =userMapper.findDep();
+        return departments;
+    }
 }
