@@ -19,9 +19,12 @@
                             部门列表
                         </div>
                     </div>
-                    <div style="margin-left: 950px">
+                    <div style="margin-left: 920px">
                         <button class="btn btn-danger btn-sm " data-target="#insert_model" data-toggle="modal">
                             <span class="fa fa-plus"> 添加</span>
+                        </button>
+                        <button class="btn btn-primary btn-sm " @click="returnIndex">
+                            <span class="fa fa-pencil"> 查看员工信息</span>
                         </button>
                     </div>
                     <div class="panel-body">
@@ -223,6 +226,9 @@
                 }, function (error) {
                     swal(error.body.msg);
                 });
+            },
+            returnIndex: function () {
+                window.location.href = "/index";
             }
         }
     });

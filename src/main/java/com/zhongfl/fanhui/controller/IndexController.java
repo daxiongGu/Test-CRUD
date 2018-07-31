@@ -20,4 +20,9 @@ public class IndexController {
     public String dep(){
         return "department";
     }
+
+    @GetMapping("/detail")
+    public String detail() {
+        return "staffDetail";
+    }
 }

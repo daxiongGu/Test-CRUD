@@ -30,7 +30,7 @@
             <if test="gender != null">
                 gender = #{gender},
             </if>
-            <if test="mobile != null and mobile != ''">
+            <if test="mobile != null">
                 mobile = #{mobile},
             </if>
             <if test="nickName != null and nickName != ''">
@@ -47,6 +47,31 @@
         UPDATE tb_staff
         SET dept_id = #{newId}
         WHERE dept_id = #{oldId}
+    </update>
+
+    <update id="updateDetail">
+        UPDATE tb_staff
+        <set>
+            <if test="realName != null and realName != ''">
+                real_name = #{realName},
+            </if>
+            <if test="age != null">
+                age = #{age},
+            </if>
+            <if test="gender != null">
+                gender = #{gender},
+            </if>
+            <if test="mobile != null and mobile != ''">
+                mobile = #{mobile},
+            </if>
+            <if test="nickName != null and nickName != ''">
+                nick_name = #{nickName},
+            </if>
+            <if test="deptId != null">
+                dept_id = #{deptId},
+            </if>
+        </set>
+        WHERE id = #{staffId}
     </update>
 
     <select id="select" resultType="com.zhongfl.fanhui.bean.User">

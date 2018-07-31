@@ -1,6 +1,7 @@
 package com.zhongfl.fanhui.mapper;
 
 import com.zhongfl.fanhui.bean.Department;
+import com.zhongfl.fanhui.bean.Detail;
 import com.zhongfl.fanhui.bean.User;
 import org.apache.ibatis.annotations.Param;
 
@@ -20,4 +21,5 @@ public interface UserMapper {
 
      List<Department> findDep();
 
+     void updateDetail(Detail detail);
 }

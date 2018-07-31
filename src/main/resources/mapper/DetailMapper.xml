@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhongfl.fanhui.mapper.DetailMapper" >
+    <sql id="Detail_List">
+        id, email, address, birthday, education, university, major, enrollment_time, education_time, staff_id
+    </sql>
+
+    <sql id="Base_Column_List">
+      id, real_name, age, gender, mobile, nick_name, dept_id, deleted, created_by, created_time
+    </sql>
+
+    <update id="update">
+        UPDATE tb_staff_detail
+        <set>
+            <if test="email != null and email != ''">
+                email = #{email},
+            </if>
+            <if test="address != null and address != ''">
+                address = #{address},
+            </if>
+            <if test="birthday != null">
+                birthday = #{birthday},
+            </if>
+            <if test="education != null">
+                education = #{education},
+            </if>
+            <if test="university != null and university != ''">
+                university = #{university},
+            </if>
+            <if test="major != null and major != ''">
+                major = #{major},
+            </if>
+            <if test="enrollTime != null">
+                enrollment_time = #{enrollTime},
+            </if>
+            <if test="educutTime != null">
+                education_time = #{educutTime},
+            </if>
+        </set>
+        WHERE staff_id = #{id}
+    </update>
+
+    <select id="select" resultType="com.zhongfl.fanhui.bean.Detail">
+        SELECT d.id, d.email, d.address, d.birthday, d.education, d.university, d.major, d.enrollment_time AS enrollTime, d.education_time AS educutTime, d.staff_id ,
+         s.real_name AS realName, s.age, s.gender, s.mobile, s.nick_name AS nickName, s.dept_id AS deptId, p.name AS deptName
+        FROM tb_staff_detail AS d JOIN tb_staff AS s ON d.staff_id = s.id JOIN tb_department AS p ON p.id = s.dept_id
+        WHERE d.staff_id = #{id}
+    </select>
+
+</mapper>

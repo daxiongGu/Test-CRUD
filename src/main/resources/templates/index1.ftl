@@ -63,7 +63,7 @@
                                 </div>
                             </div>
                             <button type="button" class="btn btn-sm btn-success" @click="findList">
-                                <span class="fa fa-tasks">查询</span>
+                                <span class="fa fa-search"> 查询</span>
                             </button>
                             <button class="btn btn-danger btn-sm " data-target="#insert_model" data-toggle="modal">
                                 <span class="fa fa-plus"> 添加</span>
@@ -112,6 +112,9 @@
                                         <td>{{user.deptName}}</td>
                                         <td>{{user.createdBy}}</td>
                                         <td>
+                                            <button class="btn btn-primary btn-sm " @click="detail(user.id)">
+                                                <span class="fa fa-align-justify"> 详情</span>
+                                            </button>
                                             <button class="btn btn-primary btn-sm " @click="update(user)"
                                                     data-target="#update_model" data-toggle="modal">
                                                 <span class="fa fa-pencil"> 编辑</span>
@@ -380,6 +383,9 @@
                 }, function (error) {
                     swal(error.body.msg);
                 });
+            },
+            detail: function (id) {
+                window.location.href = "/detail?id=" + id;
             }
         }
     });
