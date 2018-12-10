@@ -1,4 +1,4 @@
-package com.zhongfl.fanhui.controller;
+package com.zhongfl.wangyunkai.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,16 +13,7 @@ public class IndexController {
 
     @GetMapping("/index")
     public String index(){
-        return "index1";
+        return "index";
     }
 
-    @GetMapping("/department")
-    public String dep(){
-        return "department";
-    }
-
-    @GetMapping("/detail")
-    public String detail() {
-        return "staffDetail";
-    }
 }

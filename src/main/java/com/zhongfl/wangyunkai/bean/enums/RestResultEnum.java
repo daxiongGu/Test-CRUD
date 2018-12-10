@@ -1,4 +1,4 @@
-package com.zhongfl.fanhui.bean.enums;
+package com.zhongfl.wangyunkai.bean.enums;
 
 public enum RestResultEnum {
     SUCCESS(2000000, "操作成功"),

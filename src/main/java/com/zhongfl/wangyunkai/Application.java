@@ -1,19 +1,16 @@
-package com.zhongfl.fanhui;
+package com.zhongfl.wangyunkai;
 
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 /**
- * BI系统启动点
  * @author 木叶丸
  */
 @SpringBootApplication
-@EnableScheduling
 @EnableTransactionManagement
-@MapperScan({"com.zhongfl.fanhui.mapper.**"})
+@MapperScan({"com.zhongfl.wangyunkai.mapper.**"})
 public class Application {
 
     public static void main(String[] args) {

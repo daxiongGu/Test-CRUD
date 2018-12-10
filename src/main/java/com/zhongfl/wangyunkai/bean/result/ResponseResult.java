@@ -1,6 +1,6 @@
-package com.zhongfl.fanhui.bean.result;
+package com.zhongfl.wangyunkai.bean.result;
 
-import com.zhongfl.fanhui.bean.enums.RestResultEnum;
+import com.zhongfl.wangyunkai.bean.enums.RestResultEnum;
 
 import java.io.Serializable;
 

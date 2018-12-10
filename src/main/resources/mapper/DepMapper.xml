@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.zhongfl.fanhui.mapper.DepMapper" >
+<mapper namespace="com.zhongfl.wangyunkai.mapper.DepMapper" >
     <sql id="Base_Column_List">
         id, `name`, detail, deleted
     </sql>
@@ -31,7 +31,7 @@
         WHERE id = #{id}
     </update>
 
-    <select id="list" resultType="com.zhongfl.fanhui.bean.Department">
+    <select id="list" resultType="com.zhongfl.wangyunkai.bean.Department">
         SELECT
         <include refid="Base_Column_List"/>
         FROM tb_department

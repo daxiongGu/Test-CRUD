@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.zhongfl.fanhui.mapper.DetailMapper" >
+<mapper namespace="com.zhongfl.wangyunkai.mapper.DetailMapper" >
     <sql id="Detail_List">
         id, email, address, birthday, education, university, major, enrollment_time, education_time, staff_id
     </sql>
@@ -40,7 +40,7 @@
         WHERE staff_id = #{id}
     </update>
 
-    <select id="select" resultType="com.zhongfl.fanhui.bean.Detail">
+    <select id="select" resultType="com.zhongfl.wangyunkai.bean.Detail">
         SELECT d.id, d.email, d.address, d.birthday, d.education, d.university, d.major, d.enrollment_time AS enrollTime, d.education_time AS educutTime, d.staff_id ,
          s.real_name AS realName, s.age, s.gender, s.mobile, s.nick_name AS nickName, s.dept_id AS deptId, p.name AS deptName
         FROM tb_staff_detail AS d JOIN tb_staff AS s ON d.staff_id = s.id JOIN tb_department AS p ON p.id = s.dept_id
