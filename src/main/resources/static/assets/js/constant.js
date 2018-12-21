@@ -1,4 +1,4 @@
-var contentPath = "/boss-bi-manager";
+var contentPath = "";
 
 function getQueryString(name) {
     var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");

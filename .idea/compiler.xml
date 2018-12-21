@@ -8,6 +8,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="crud" />
         <module name="FANHUI-CRUD" />
+        <module name="WYUNKAI-CRUD" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="8" />

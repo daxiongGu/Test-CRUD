@@ -1,0 +1,12 @@
+# IntelliJ project files
+.idea
+*.iml
+out
+gen
+*/target
+.settings
+.classpath
+.project
+.DS_Store
+.vscode
+rebel.xml

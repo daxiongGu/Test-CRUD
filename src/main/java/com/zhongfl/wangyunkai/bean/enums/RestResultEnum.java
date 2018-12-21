@@ -1,6 +1,6 @@
 package com.zhongfl.wangyunkai.bean.enums;
 
-public enum RestResultEnum {
+public enum RestResultEnum { // 从这里获取码值，进行返回
     SUCCESS(2000000, "操作成功"),
     ERROR(50000000, "操作错误"),
     UNKNOWN_ERROR(-1, "未知异常错误"),

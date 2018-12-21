@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhongfl.wangyunkai.mapper.UserMapper">
+    <sql id="User_Colum">
+        id,name,sex,uclass,math,english,chinese
+    </sql>
+
+    <select id="selectAll" resultType="com.zhongfl.wangyunkai.bean.User">
+        select <include refid="User_Colum"/>
+        FROM student
+    </select>
+
+    <insert id="addUser" parameterType="com.zhongfl.wangyunkai.bean.User">
+      insert into student
+	    (name,sex,uclass,math,english,chinese)
+	    values
+	    (#{name,jdbcType=VARCHAR},#{sex,jdbcType=VARCHAR},#{uclass,jdbcType=INTEGER},
+	    #{math,jdbcType=INTEGER},#{english,jdbcType=INTEGER},#{chinese,jdbcType=INTEGER})
+    </insert>
+
+    <!--先从数据库当中查出相应的值，然后在修改-->
+    <select id="findUserById" parameterType="integer" resultType="com.zhongfl.wangyunkai.bean.User">
+      select <include refid="User_Colum"/>
+      from student where id = ${value}
+    </select>
+    <update id="updateUser" parameterType="com.zhongfl.wangyunkai.bean.User">
+      update student SET
+	  name= #{name},sex=#{sex},uclass=#{uclass},math=#{math},english=#{english},chinese=#{chinese}
+	  where id = #{id}
+    </update>
+
+    <delete id="deleteUser" parameterType="int">
+        delete from student where id = ${value}
+    </delete>
+</mapper>
