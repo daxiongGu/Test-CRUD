@@ -1,4 +1,4 @@
-package com.zhongfl.wangyunkai;
+package com.zhongfl.kangkai;
 
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  */
 @SpringBootApplication
 @EnableTransactionManagement
-@MapperScan({"com.zhongfl.wangyunkai.mapper.**"})
+@MapperScan({"com.zhongfl.kangkai.mapper.**"})
 public class Application {
 
     public static void main(String[] args) {

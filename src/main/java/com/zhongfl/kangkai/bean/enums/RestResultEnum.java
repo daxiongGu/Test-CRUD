@@ -1,4 +1,4 @@
-package com.zhongfl.wangyunkai.bean.enums;
+package com.zhongfl.kangkai.bean.enums;
 
 public enum RestResultEnum { // 从这里获取码值，进行返回
     SUCCESS(2000000, "操作成功"),

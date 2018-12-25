@@ -1,9 +1,7 @@
-package com.zhongfl.wangyunkai.controller;
+package com.zhongfl.kangkai.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-
-import java.sql.SQLOutput;
 
 
 /**
@@ -12,13 +10,14 @@ import java.sql.SQLOutput;
  */
 @Controller
 public class IndexController {
+
     @GetMapping("/index")
     public String index(){
-        return "user/list";
+        return "index";
     }
 
-    @GetMapping("/exampleForVue")
-    public String exampleForVue(){
-        return "exampleForVue";
+    @GetMapping("/")
+    public String index2(){
+        return "index";
     }
 }
