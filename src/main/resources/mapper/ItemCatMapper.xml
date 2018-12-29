@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhongfl.guzhixiong.mapper.ItemCatMapper">
+
+  <sql id="Base_Column_List">
+    id, name, created, updated
+  </sql>
+
+  <!--根据分类ID查询单商品类目-->
+  <select id="selectItemCatById" parameterType="java.lang.Integer" resultType="com.zhongfl.guzhixiong.bean.model.ItemCat">
+    select 
+    <include refid="Base_Column_List" />
+    from item_cat
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+
+  <!--查询所有分类(或根据搜索条件查询)-->
+  <select id="selectItemCatList" resultType="com.zhongfl.guzhixiong.bean.model.ItemCat">
+    SELECT
+    <include refid="Base_Column_List"/>
+    FROM item_cat
+    <where>
+      <if test="name !=null and name!=''">
+        <bind name="pattern1" value="'%'+ name +'%'"/>
+        and name like #{pattern1}
+      </if>
+    </where>
+  </select>
+
+  <!--插入商品分类-->
+  <insert id="insertItemCat" useGeneratedKeys="true" keyProperty="id" parameterType="com.zhongfl.guzhixiong.bean.model.ItemCat">
+    insert into item_cat(name,created,updated)
+        values(#{name},#{created},#{updated})
+  </insert>
+
+  <!--根据商品类目id删除-->
+  <delete id="deleteItemCat" parameterType="java.lang.Integer">
+    delete from item_cat where id = #{id}
+  </delete>
+
+  <!--查询所有商品分类-->
+  <select id="selectAllItemCat" resultType="com.zhongfl.guzhixiong.bean.model.ItemCat">
+    select * from item_cat
+  </select>
+
+  <!--修改商品分类-->
+  <update id="updateItemCatById" parameterType="com.zhongfl.guzhixiong.bean.model.ItemCat">
+    update item_cat set name = #{name},updated = #{updated} where id = #{id}
+  </update>
+</mapper>

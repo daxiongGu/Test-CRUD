@@ -20,4 +20,9 @@ public class IndexController {
     public String index2(){
         return "index";
     }
+
+    @GetMapping("/itemCat")
+    public String index3(){
+        return "item/itemCatManage";
+    }
 }

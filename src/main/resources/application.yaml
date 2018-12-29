@@ -47,3 +47,7 @@ mybatis:
 pagehelper:
   helper-dialect: mysql
 
+#图片保存地址
+file:
+  image-path:  D:\Images\item
+  image-prefix: /image

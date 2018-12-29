@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhongfl.guzhixiong.mapper.ItemMapper">
+
+  <sql id="Base_Column_List">
+    id, title, price, num, image, cid, status, created, updated
+  </sql>
+
+  <!--根据商品ID查询单个商品-->
+  <select id="selectItemById" parameterType="java.lang.Integer" resultType="com.zhongfl.guzhixiong.bean.model.Item">
+    select 
+    <include refid="Base_Column_List" />
+    from item
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+
+  <!--查询商品列表-->
+  <select id="selectItemList" resultType="com.zhongfl.guzhixiong.bean.model.Item">
+    SELECT
+    <include refid="Base_Column_List"/>
+    FROM item
+    <where>
+      <if test="id !=null and id!=''">
+        and id = #{id}
+      </if>
+      <if test="title !=null and title!=''">
+        <bind name="pattern1" value="'%'+ title +'%'"/>
+        and title like #{pattern1}
+      </if>
+    </where>
+  </select>
+
+  <!--删除商品信息-->
+  <update id="deleteItemById" parameterType="java.lang.Integer">
+    delete from item
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <!--插入商品信息-->
+  <insert id="insertItem" useGeneratedKeys="true" keyProperty="id" parameterType="com.zhongfl.guzhixiong.bean.model.Item">
+    insert into item(
+        title,price,num,image,cid,status,created,updated)
+        value (
+            #{title},
+            #{price},
+            #{num},
+            #{image},
+            #{cid},
+            #{status},
+            #{created},
+            #{updated}
+            )
+  </insert>
+
+  <!--修改商品信息-->
+  <update id="updateItemById" parameterType="com.zhongfl.guzhixiong.bean.model.Item">
+    update item
+    <set>
+      <if test="title != null and title !=''">
+        title = #{title},
+      </if>
+      <if test="price != null and title !=''">
+        price = #{price},
+      </if>
+      <if test="num != null and title !=''">
+        num = #{num},
+      </if>
+      <if test="image != null and title !=''">
+        image = #{image},
+      </if>
+      <if test="cid != null and title !=''">
+        cid = #{cid},
+      </if>
+      <if test="status != null and title !=''">
+        status = #{status},
+      </if>
+      <if test="updated != null and title !=''">
+        updated = #{updated}
+      </if>
+    </set>
+    where id = #{id}
+  </update>
+
+  <!--根据商品分类删除商品信息-->
+  <delete id="deleteItemByCid" parameterType="java.lang.Integer">
+        delete from item where cid = #{cid}
+    </delete>
+
+</mapper>
