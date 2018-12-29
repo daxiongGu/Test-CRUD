@@ -6,7 +6,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * 商品表
+ * 商品
  */
 public class Item implements Serializable {
     /**

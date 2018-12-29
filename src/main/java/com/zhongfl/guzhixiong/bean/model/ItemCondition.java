@@ -3,12 +3,18 @@ package com.zhongfl.guzhixiong.bean.model;
 import java.io.Serializable;
 
 /**
- * 商品查询条件类
+ * 商品查询条件
  */
 public class ItemCondition extends PageVo implements Serializable{
 
+    /**
+     * 商品编号
+     */
     private Integer id;
 
+    /**
+     * 商品标题
+     */
     private String title;
 
     public Integer getId() {

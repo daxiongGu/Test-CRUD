@@ -8,7 +8,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 public class ResourceMappingConfig extends WebMvcConfigurerAdapter {
 
     /**
-     * 本地图片展示地址映射的配置
+     * 本地图片展示地址映射配置
      * @param registry
      */
     @Override

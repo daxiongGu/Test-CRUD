@@ -5,8 +5,14 @@ package com.zhongfl.guzhixiong.bean.model;
  */
 public class PageVo {
 
+    /**
+     * 当前页
+     */
     private Integer pageNum;
 
+    /**
+     * 每页大小
+     */
     private Integer pageSize;
 
     public Integer getPageNum() {

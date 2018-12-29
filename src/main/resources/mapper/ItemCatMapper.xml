@@ -2,11 +2,12 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.zhongfl.guzhixiong.mapper.ItemCatMapper">
 
+  <!--商品类目基本字段-->
   <sql id="Base_Column_List">
     id, name, created, updated
   </sql>
 
-  <!--根据分类ID查询单商品类目-->
+  <!--根据分类ID查询商品类目-->
   <select id="selectItemCatById" parameterType="java.lang.Integer" resultType="com.zhongfl.guzhixiong.bean.model.ItemCat">
     select 
     <include refid="Base_Column_List" />

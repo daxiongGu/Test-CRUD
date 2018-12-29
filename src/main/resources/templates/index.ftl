@@ -357,15 +357,6 @@
                     toastr.error(error.body.msg, '商品修改失败！');
                 });
             }
-            //添加商品
-            /*addItemInfo:function () {
-                let url = contentPath + '/item/addItem';
-                this.$http.get(url,{params:this.addItem}).then(function (response) {
-                    //this.query();
-                }, function (error) {
-                    toastr.error(error.body.msg, '商品添加失败！');
-                });
-            }*/
         }
     });
 </script>

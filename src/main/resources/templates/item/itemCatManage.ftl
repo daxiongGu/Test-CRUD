@@ -13,6 +13,7 @@
 
     <div id="main">
 
+        <#--菜单栏-->
         <div class="container" style="padding:5px;margin-left: 3px;">
             <ul class="nav nav-pills">
                 <li><a href="/">商品信息管理</a></li>

@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * 商品分类表
+ * 商品分类
  */
 public class ItemCat implements Serializable {
     /**
