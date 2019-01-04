@@ -22,6 +22,19 @@ spring:
     proxy-target-class: true
   freemarker:
         template-loader-path: ["classpath:/templates/", "classpath:/castemplates/"]
+  #邮件相关配置
+  mail:
+    host: smtp.126.com
+    username: 18846052919@126.com
+    password: daxiong123
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+    default-encoding: UTF-8
 
 server:
   context-path: /

@@ -22,7 +22,26 @@ public class IndexController {
     }
 
     @GetMapping("/itemCat")
-    public String index3(){
-        return "item/itemCatManage";
+    public String index3(){ return "item/itemCatManage";
+    }
+
+    @GetMapping("/sign")
+    public String sign(){
+        return "user/sign";
+    }
+
+    @GetMapping("/register")
+    public String register(){
+        return "user/register";
+    }
+
+    @GetMapping("/resetError")
+    public String resetError(){
+        return "user/resetError";
+    }
+
+    @GetMapping("/reset")
+    public String reset(){
+        return "user/reset";
     }
 }

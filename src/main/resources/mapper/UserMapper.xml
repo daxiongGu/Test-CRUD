@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhongfl.guzhixiong.mapper.UserMapper">
+
+  <!--用户信息基本字段-->
+  <sql id="Base_Column_List">
+    id, name, password, email, phone, type, create_time, update_time
+  </sql>
+
+  <!--根据用户ID查询用户-->
+  <select id="selectUserById" parameterType="java.lang.Integer" resultType="com.zhongfl.guzhixiong.bean.model.User">
+    select 
+    <include refid="Base_Column_List" />
+    from user
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+
+  <!--根据用户邮箱查询用户-->
+  <select id="selectUserByEmail" parameterType="java.lang.String" resultType="com.zhongfl.guzhixiong.bean.model.User">
+    select
+    <include refid="Base_Column_List" />
+    from user
+    where email = #{email}
+  </select>
+
+  <!--添加信息-->
+  <insert id="insertUser" useGeneratedKeys="true" keyProperty="id" parameterType="com.zhongfl.guzhixiong.bean.model.User">
+    insert into user(
+        name,password,email,phone,type,create_time,update_time)
+        value (
+            #{name},
+            #{password},
+            #{email},
+            #{phone},
+            #{type},
+            #{create_time},
+            #{update_time}
+            )
+  </insert>
+
+  <!--根据邮箱修改用户信息-->
+  <update id="updateUserByEmail" parameterType="com.zhongfl.guzhixiong.bean.model.User">
+      update user
+      <set>
+          <if test="name != null and name !=''">
+              name = #{name},
+          </if>
+          <if test="password != null and password !=''">
+              password = #{password},
+          </if>
+          <if test="phone != null and phone !=''">
+              phone = #{phone},
+          </if>
+          <if test="type != null and type !=''">
+              type = #{type},
+          </if>
+          <if test="createTime != null">
+              create_time = #{createTime},
+          </if>
+          <if test="updateTime != null">
+              update_time = #{updateTime}
+          </if>
+      </set>
+      where email = #{email}
+  </update>
+
+</mapper>

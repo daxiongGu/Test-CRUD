@@ -20,7 +20,7 @@
                 <li class="active"><a href="#">商品分类管理</a></li>
             </ul>
         </div>
-
+        <#--菜单栏结束-->
         
         <div class="panel" style="margin-left: 4px;">
             <#--搜索框-->
@@ -118,7 +118,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="exampleInputTitle">商品分类名称</label>
-                                    <input type="text" class="form-control" name="title" v-model="chooseItemCat.name" id="exampleInputTitle" placeholder="title">
+                                    <input type="text" class="form-control" name="title" v-model="chooseItemCat.name" id="exampleInputTitle" placeholder="title" required>
                                 </div>
                                 <button type="submit" class="btn btn-default" @click="updateItemCatInfo">修改</button>
                         </div>
@@ -142,10 +142,10 @@
                                 <h4 class="modal-title" id="myModalLabel">添加商品类目</h4>
                             </div>
                             <div class="modal-body">
-                                <form action="/itemCat/addItemCat" method="post" id="ff">
+                                <form @submit.prevent="addItemCatInfo">
                                     <div class="form-group">
                                         <label for="exampleInputTitle">商品分类名称</label>
-                                        <input type="text" class="form-control" name="name" id="exampleInputTitle" placeholder="title" required>
+                                        <input type="text" v-model="addItemCat.name" class="form-control" name="name" id="exampleInputTitle" placeholder="name" required>
                                     </div>
                                     <button type="submit" class="btn btn-default">添加</button>
                                 </form>
@@ -181,6 +181,9 @@
                 id:'',
                 name:'',
             },
+            addItemCat:{
+                name:''
+            }
         },
         created: function(){
             this.itemCatCondition.pageNum = 1;
@@ -199,10 +202,15 @@
             query: function () {
                 let url = contentPath + '/itemCat/itemCatList';
                 this.$http.get(url , {params:this.itemCatCondition}).then(function (response) {
-                    this.itemCatList = response.data.data.list;
-                    this.currentPage = response.data.data.pageNum;
-                    this.dataTotal = response.data.data.total;
-                    this.totalPage = response.data.data.pages;
+                    if(!response.data.data.list.length && response.data.data.pageNum>0){
+                        this.itemCatCondition.pageNum = this.currentPage - 1;
+                        this.query();
+                    }else{
+                        this.itemCatList = response.data.data.list;
+                        this.currentPage = response.data.data.pageNum;
+                        this.dataTotal = response.data.data.total;
+                        this.totalPage = response.data.data.pages;
+                    }
                 }, function (error) {
                     toastr.error(error.body.msg, '查询商品分类列表失败！');
                 });
@@ -241,7 +249,7 @@
             toUpdateItemCat:function (itemCat) {
                 this.chooseItemCat = itemCat;
             },
-            //商品类目名称修改
+            //修改商品分类
             updateItemCatInfo:function () {
                 let url = contentPath + '/itemCat/updateItemCat';
                 this.$http.post(url,this.chooseItemCat).then(function (response) {
@@ -250,6 +258,20 @@
                 }, function (error) {
                     toastr.error(error.body.msg, '商品类目名修改失败！');
                 });
+            },
+            //添加商品分类
+            addItemCatInfo:function () {
+                let url = contentPath + '/itemCat/addItemCat';
+                this.$http.post(url,this.addItemCat).then(function (response) {
+                    $("#myModal").modal('hide');
+                    this.addItemCat.name='';
+                    this.query();
+                }, function (error) {
+                    toastr.error(error.body.msg, '商品类目添加失败！');
+                });
+            },
+            showData:function () {
+
             }
         }
     });

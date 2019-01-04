@@ -135,7 +135,6 @@
                             <h4 class="modal-title" id="myModalLabel">修改商品信息</h4>
                         </div>
                         <div class="modal-body">
-                            <#--<form>-->
                                 <div class="form-group">
                                     <label for="exampleInputId">商品编号</label>
                                     <input type="text" class="form-control" name="title" v-model="chooseItem.id" id="exampleInputId" placeholder="id" readonly>
@@ -168,12 +167,7 @@
                                     <input type="radio" id="down" name="status" value="2" v-model="chooseItem.status">
                                     <label for="down">下架</label>
                                 </div>
-                                <#--<div class="form-group">
-                                    <label for="exampleInputImage">商品图片</label>
-                                    <input type="file" id="exampleInputImage" name="image" >
-                                </div>-->
                                 <button type="submit" class="btn btn-default" @click="updateItemInfo">修改</button>
-                            <#--</form>-->
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -291,10 +285,15 @@
             query: function () {
                 let url = contentPath + '/item/itemList';
                 this.$http.get(url, {params:this.itemCondition}).then(function (response) {
-                    this.itemList = response.data.data.list;
-                    this.currentPage = response.data.data.pageNum
-                    this.dataTotal = response.data.data.total
-                    this.totalPage = response.data.data.pages
+                    if(!response.data.data.list.length && response.data.data.pageNum>0){
+                        this.itemCondition.pageNum = this.currentPage - 1;
+                        this.query();
+                    }else {
+                        this.itemList = response.data.data.list;
+                        this.currentPage = response.data.data.pageNum
+                        this.dataTotal = response.data.data.total
+                        this.totalPage = response.data.data.pages
+                    }
                 }, function (error) {
                     toastr.error(error.body.msg, '查询商品列表失败！');
                 });
@@ -324,9 +323,10 @@
                 let url = contentPath + '/item/deleteItem/'+id;
                 this.$http.post(url,this.itemCondition).then(function (response) {
                     this.itemList = response.data.data.list;
-                    this.currentPage = response.data.data.pageNum
-                    this.dataTotal = response.data.data.total
-                    this.totalPage = response.data.data.pages
+                    this.currentPage = response.data.data.pageNum;
+                    this.dataTotal = response.data.data.total;
+                    this.totalPage = response.data.data.pages;
+                    this.query();
                 }, function (error) {
                     toastr.error(error.body.msg, '商品删除失败！');
                 });

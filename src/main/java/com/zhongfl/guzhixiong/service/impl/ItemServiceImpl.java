@@ -3,7 +3,6 @@ package com.zhongfl.guzhixiong.service.impl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.zhongfl.guzhixiong.bean.model.Item;
-import com.zhongfl.guzhixiong.bean.model.ItemCat;
 import com.zhongfl.guzhixiong.bean.model.ItemCondition;
 import com.zhongfl.guzhixiong.bean.util.ImageUpload;
 import com.zhongfl.guzhixiong.mapper.ItemCatMapper;
@@ -74,7 +73,7 @@ public class ItemServiceImpl implements ItemService {
 
     /**
      * 插入商品信息
-     * @param item
+     * @param item 商品信息
      * @return
      */
     @Override

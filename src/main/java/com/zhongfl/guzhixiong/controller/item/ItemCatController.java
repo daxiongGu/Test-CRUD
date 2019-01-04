@@ -39,9 +39,10 @@ public class ItemCatController {
      * @return
      */
     @PostMapping("/addItemCat")
-    public String insertItem(ItemCat itemCat){
+    @ResponseBody
+    public ResponseResult insertItem(@RequestBody ItemCat itemCat){
         itemCatService.insertItemCat(itemCat);
-        return "redirect:/itemCat";
+        return new ResponseResult();
     }
 
     /**
