@@ -24,6 +24,9 @@
       <if test="id !=null and id!=''">
         and id = #{id}
       </if>
+      <if test="cid !=null and cid!=''">
+        and cid = #{cid}
+      </if>
       <if test="title !=null and title!=''">
         <bind name="pattern1" value="'%'+ title +'%'"/>
         and title like #{pattern1}

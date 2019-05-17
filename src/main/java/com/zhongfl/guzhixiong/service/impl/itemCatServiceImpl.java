@@ -1,13 +1,13 @@
 package com.zhongfl.guzhixiong.service.impl;
 
-import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.zhongfl.guzhixiong.bean.model.ItemCat;
-import com.zhongfl.guzhixiong.bean.model.ItemCatCondition;
+import com.zhongfl.guzhixiong.bean.model.req.ItemCatCondition;
 import com.zhongfl.guzhixiong.mapper.ItemCatMapper;
 import com.zhongfl.guzhixiong.mapper.ItemMapper;
 import com.zhongfl.guzhixiong.service.ItemCatService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,6 +19,7 @@ import java.util.List;
  * 商品分类Service实现
  */
 @Service
+@Slf4j
 public class itemCatServiceImpl implements ItemCatService {
 
     @Resource
@@ -34,6 +35,7 @@ public class itemCatServiceImpl implements ItemCatService {
      */
     @Override
     public PageInfo<ItemCat> getItemCatList(ItemCatCondition itemCatCondition) {
+        log.info("查询条件为：{}",itemCatCondition);
         PageHelper.startPage(itemCatCondition.getPageNum(),itemCatCondition.getPageSize());
         List<ItemCat> itemCatList = itemCatMapper.selectItemCatList(itemCatCondition);
         return new PageInfo<ItemCat>(itemCatList);
@@ -61,6 +63,7 @@ public class itemCatServiceImpl implements ItemCatService {
     @Override
     @Transactional
     public void deleteItemCatById(Integer id) {
+        log.info("删除的分类ID：{}",id);
         itemCatMapper.deleteItemCat(id);
         //删除商品分类时同时删除商品表对应分类的商品
         itemMapper.deleteItemByCid(id);
@@ -72,7 +75,9 @@ public class itemCatServiceImpl implements ItemCatService {
      */
     @Override
     public List<ItemCat> selectAllItemCat() {
-        return itemCatMapper.selectAllItemCat();
+        List<ItemCat> cats = itemCatMapper.selectAllItemCat();
+        log.info("查询到所有商品分类：{}",cats);
+        return cats;
     }
 
     /**
@@ -82,8 +87,8 @@ public class itemCatServiceImpl implements ItemCatService {
     @Override
     @Transactional
     public void updateItemCatById(ItemCat itemCat) {
-        //更新修改时间
         itemCat.setUpdated(new Date());
+        log.info("更新的商品分类信息：{}",itemCat);
         itemCatMapper.updateItemCatById(itemCat);
     }
 }

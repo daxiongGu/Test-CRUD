@@ -5,7 +5,7 @@ import com.zhongfl.guzhixiong.bean.enums.RestResultEnum;
 import java.io.Serializable;
 
 public class ResponseResult<T> implements Serializable {
-    private int retcode; // 返回的码值
+    private int retcode;
     private String msg;
     private T data;
 
@@ -31,7 +31,7 @@ public class ResponseResult<T> implements Serializable {
 
     public ResponseResult(T data) {
         this.retcode = RestResultEnum.SUCCESS.getKey();
-        this.data = data;  // 直接返回data数据
+        this.data = data;
     }
 
     public int getRetcode() {

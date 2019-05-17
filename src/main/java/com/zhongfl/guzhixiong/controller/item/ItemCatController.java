@@ -2,7 +2,7 @@ package com.zhongfl.guzhixiong.controller.item;
 
 import com.github.pagehelper.PageInfo;
 import com.zhongfl.guzhixiong.bean.model.ItemCat;
-import com.zhongfl.guzhixiong.bean.model.ItemCatCondition;
+import com.zhongfl.guzhixiong.bean.model.req.ItemCatCondition;
 import com.zhongfl.guzhixiong.bean.result.ResponseResult;
 import com.zhongfl.guzhixiong.service.ItemCatService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +30,7 @@ public class ItemCatController {
     @GetMapping("/itemCatList")
     public ResponseResult<PageInfo<ItemCat>> getItemCatList(ItemCatCondition itemCatCondition){
         PageInfo<ItemCat> itemCatPage = itemCatService.getItemCatList(itemCatCondition);
-        return new ResponseResult<PageInfo<ItemCat>>(itemCatPage);
+        return new ResponseResult<>(itemCatPage);
     }
 
     /**
@@ -54,7 +54,6 @@ public class ItemCatController {
     @PostMapping("/deleteItemCat/{id}")
     @ResponseBody
     public ResponseResult deleteItem(@PathVariable Integer id,@RequestBody ItemCatCondition itemCatCondition){
-        //System.out.println("updateID:"+id);
         itemCatService.deleteItemCatById(id);
         return new ResponseResult(itemCatCondition);
     }

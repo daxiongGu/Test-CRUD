@@ -4,7 +4,7 @@
 <head>
     <link rel="shortcut icon" href="#"/>
     <meta charset="utf-8">
-    <title>Shop_ResetPwd</title>
+    <title>商品管理系统-密码重置</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <#include '../include/baselink.ftl'>
 </head>

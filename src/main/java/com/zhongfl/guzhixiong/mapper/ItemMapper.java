@@ -1,8 +1,7 @@
 package com.zhongfl.guzhixiong.mapper;
 
 import com.zhongfl.guzhixiong.bean.model.Item;
-import com.zhongfl.guzhixiong.bean.model.ItemCondition;
-import org.apache.ibatis.annotations.Param;
+import com.zhongfl.guzhixiong.bean.model.req.ItemCondition;
 
 import java.util.List;
 

@@ -1,10 +1,8 @@
 package com.zhongfl.guzhixiong.controller.item;
 
 import com.github.pagehelper.PageInfo;
-import com.zhongfl.guzhixiong.bean.enums.RestResultEnum;
 import com.zhongfl.guzhixiong.bean.model.Item;
-import com.zhongfl.guzhixiong.bean.model.ItemCat;
-import com.zhongfl.guzhixiong.bean.model.ItemCondition;
+import com.zhongfl.guzhixiong.bean.model.req.ItemCondition;
 import com.zhongfl.guzhixiong.bean.result.ResponseResult;
 import com.zhongfl.guzhixiong.service.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +31,7 @@ public class itemController {
             itemCondition = new ItemCondition();
         }
         PageInfo<Item> page = itemService.findByPage(itemCondition);
-        return new ResponseResult<PageInfo<Item>>(page);
+        return new ResponseResult<>(page);
     }
 
     /**
@@ -44,10 +42,12 @@ public class itemController {
      */
     @PostMapping("/deleteItem/{id}")
     @ResponseBody
-    public ResponseResult<PageInfo<Item>> deleteItem(@PathVariable Integer id,@RequestBody ItemCondition itemCondition){
-        System.out.println(itemCondition.getId()+","+itemCondition.getTitle()+","+itemCondition.getPageNum()+","+itemCondition.getPageSize());
-        PageInfo<Item> page = itemService.deleteItemById(id,itemCondition);
-        return new ResponseResult<PageInfo<Item>>(page);
+    public ResponseResult deleteItem(@PathVariable Integer id,@RequestBody ItemCondition itemCondition){
+        int flag = itemService.deleteItemById(id,itemCondition);
+        if (flag>0)
+            return new ResponseResult();
+        else
+            return new ResponseResult(66666,"删除商品失败");
     }
 
     /**
@@ -59,7 +59,7 @@ public class itemController {
     public String insertItem(Item item){
         System.out.println("add:"+item+","+item.getStatus()+","+item.getTitle());
         itemService.insertItem(item);
-        return "redirect:/index";
+        return "redirect:/itemList";
     }
 
     /**
@@ -70,7 +70,6 @@ public class itemController {
     @PostMapping("/updateItem")
     @ResponseBody
     public ResponseResult updateItem(@RequestBody Item item){
-        System.out.println("update:"+item.getId());
         itemService.updateItem(item);
         return new ResponseResult();
     }

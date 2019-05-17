@@ -1,7 +1,7 @@
 package com.zhongfl.guzhixiong.mapper;
 
 import com.zhongfl.guzhixiong.bean.model.ItemCat;
-import com.zhongfl.guzhixiong.bean.model.ItemCatCondition;
+import com.zhongfl.guzhixiong.bean.model.req.ItemCatCondition;
 
 import java.util.List;
 

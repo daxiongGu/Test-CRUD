@@ -3,6 +3,9 @@ package com.zhongfl.guzhixiong.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+
 
 /**
  * 首页路由
@@ -11,18 +14,19 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class IndexController {
 
-    @GetMapping("/index")
-    public String index(){
-        return "index";
-    }
-
     @GetMapping("/")
     public String index2(){
         return "index";
     }
 
     @GetMapping("/itemCat")
-    public String index3(){ return "item/itemCatManage";
+    public String itemCat(){
+        return "item/itemCatManage";
+    }
+
+    @GetMapping("/itemList")
+    public String itemList(){
+        return "item/index";
     }
 
     @GetMapping("/sign")
@@ -43,5 +47,15 @@ public class IndexController {
     @GetMapping("/reset")
     public String reset(){
         return "user/reset";
+    }
+
+    @GetMapping("/index")
+    public String index(HttpServletResponse response) throws IOException {
+        return "index";
+    }
+
+    @GetMapping("/updateTime")
+    public String updateTime(){
+        return "/updateTime/update";
     }
 }

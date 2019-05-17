@@ -1,8 +1,11 @@
 spring:
   datasource:
-    url: jdbc:mysql://192.168.0.150:3306/guzhixiong?autoReconnect=true
-    username: dbadmin
-    password: 2017admin*QMX
+#    url: jdbc:mysql://192.168.0.150:3306/guzhixiong?autoReconnect=true
+#    username: dbadmin
+#    password: 2017admin*QMX
+    url: jdbc:mysql://127.0.0.1:3306/crud?autoReconnect=true
+    username: daxiong
+    password: 123456
     driver-class-name: com.mysql.jdbc.Driver
   profiles:
     active: local
@@ -64,3 +67,7 @@ pagehelper:
 file:
   image-path:  D:\Images\item
   image-prefix: /image
+
+emailContent:
+  base:
+    url: http://localhost:${server.port}

@@ -4,7 +4,7 @@
 <head>
     <link rel="shortcut icon" href="#"/>
     <meta charset="utf-8">
-    <title>Shop_Register</title>
+    <title>商品管理系统-用户注册</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <#include '../include/baselink.ftl'>
 </head>
@@ -73,16 +73,17 @@
             methods: {
                 userRegister: function () {
                     if (this.user.password != this.user.confirmPassword){
-                        alert("两次密码不相同，请重新输入！");
+                        toastr.error("两次密码不相同，请重新输入！",);
                         $("#form-create-account-password").focus();
                         return;
                     }
                     let url = contentPath + '/user/register';
                     this.$http.post(url, this.user).then(function (response) {
                         if(response.data.retcode == 5000000){
-                            alert(response.data.msg)
+                            toastr.error(response.data.msg);
                         }else{
-                            alert("注册成功");
+                            toastr.success("注册成功，欢迎登录！");
+                            this.user = null;
                         }
                     }, function (error) {
                         toastr.error(error.body.msg, '用户注册失败！');

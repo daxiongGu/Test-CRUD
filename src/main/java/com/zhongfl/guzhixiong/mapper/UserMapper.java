@@ -2,6 +2,8 @@ package com.zhongfl.guzhixiong.mapper;
 
 import com.zhongfl.guzhixiong.bean.model.User;
 
+import java.util.List;
+
 /**
  * 用户Mapper
  */
@@ -32,4 +34,9 @@ public interface UserMapper {
      */
     void updateUserByEmail(User user);
 
+    /**
+     * 查询所有用户信息
+     * @return 用户列表
+     */
+    List<User> selectAllUser();
 }

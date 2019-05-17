@@ -4,7 +4,7 @@
 <head>
     <link rel="shortcut icon" href="#"/>
     <meta charset="utf-8">
-    <title>Shop_Sign</title>
+    <title>商品管理系统-用户登录</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <#include '../include/baselink.ftl'>
 </head>
@@ -67,7 +67,7 @@
                     let url = contentPath + '/user/sign';
                     this.$http.post(url, this.user).then(function (response) {
                         if(response.data.retcode != 2000000){
-                            alert(response.data.msg);
+                            toastr.error(response.data.msg);
                         }else{
                             window.location.href="/index";
                         }
@@ -77,11 +77,11 @@
                 },
                 ResetPwd: function(){
                     if(this.user.email.trim() == ''){
-                        alert("请输入email再找回密码！")
+                        toastr.error("请输入email再找回密码！")
                     }else{
                         let url = contentPath + '/user/findPwd/'+this.user.email;
                         this.$http.get(url).then(function (response) {
-                            alert(response.data.msg);
+                            toastr.success(response.data.msg);
                         }, function (error) {
                             toastr.error(error.body.msg, '登录失败！');
                         });

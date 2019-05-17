@@ -57,4 +57,9 @@ public interface UserService {
      * @return
      */
     boolean updatePwd(User user);
+
+    /**
+     * 清除用户登录信息
+     */
+    void clearLoginUser(HttpServletRequest request);
 }

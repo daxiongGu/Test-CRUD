@@ -2,7 +2,7 @@ package com.zhongfl.guzhixiong.service;
 
 import com.github.pagehelper.PageInfo;
 import com.zhongfl.guzhixiong.bean.model.ItemCat;
-import com.zhongfl.guzhixiong.bean.model.ItemCatCondition;
+import com.zhongfl.guzhixiong.bean.model.req.ItemCatCondition;
 
 import java.util.List;
 

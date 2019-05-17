@@ -4,7 +4,7 @@
 <head>
     <link rel="shortcut icon" href="#"/>
     <meta charset="utf-8">
-    <title>Shop_ReSet</title>
+    <title>商品管理系统-密码重置</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <#include '../include/baselink.ftl'>
 </head>
@@ -67,12 +67,12 @@
             methods: {
                 setPwd: function () {
                     if (this.user.password != this.user.confirmPassword){
-                        alert("两次密码不相同，请重新输入！");
+                        toastr.error("两次密码不相同，请重新输入！");
                         return;
                     }
                     let url = contentPath + '/user/updatePwd';
                     this.$http.post(url, this.user).then(function (response) {
-                        alert("密码修改成功，请登录！")
+                        toastr.success("密码修改成功，请登录！");
                         window.location.href = "/sign";
                     }, function (error) {
                         toastr.error(error.body.msg, '用户注册失败！');

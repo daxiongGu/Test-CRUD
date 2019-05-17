@@ -4,165 +4,140 @@
 <head>
     <link rel="shortcut icon" href="#" />
     <meta charset="utf-8">
-    <title>Shop_Management_ItemCat</title>
+    <title>商品分类管理</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="<@s.url '/assets/css/jquery.pagination.css'/>">
     <#include '../include/baselink.ftl'>
+    <style>
+        .item a {
+            text-decoration: none;
+        }
+        .item a:hover {
+            text-decoration: none;
+        }
+    </style>
 </head>
-<body class="admin-modals-page sb-l-o sb-r-c onload-check">
+<body class="dashboard-page">
+<#include '../include/skin-toolbox.ftl'>
+<div id="main">
+    <#include '../include/header.ftl'>
+    <#include '../include/sidebar.ftl'>
+    <section id="content_wrapper">
 
-
-    <div id="main">
-
-        <#--菜单栏-->
-        <div class="container" style="padding:5px;margin-left: 3px;">
-            <ul class="nav nav-pills">
-                <li><a href="/">商品信息管理</a></li>
-                <li class="active"><a href="#">商品分类管理</a></li>
-            </ul>
-        </div>
-        <#--菜单栏结束-->
-        
-        <div class="panel" style="margin-left: 4px;">
-            <#--搜索框-->
-            <div class="panel">
-                <div class="well well-sm mn">
-                    <form class="form-inline">
-                        <div class="form-group">
-                            <div class="input-group input-group-sm">
-                                <div class="input-group-addon btn btn-default">商品分类搜索</div>
-                                <input type="text" class="form-control input-sm" placeholder="请输分类名"
-                                       v-model="itemCatCondition.name">
-                            </div>
-                        </div>
-                    </form>
-                </div>
+        <#--Head start-->
+        <header id="topbar" class=" ph10">
+            <div class="topbar-left">
+                <ol class="breadcrumb">
+                    <li class="crumb-icon">
+                        <a href="<@s.url '/'/>">
+                            <span class="glyphicon glyphicon-home"></span>
+                        </a>
+                    </li>
+                    <li class="crumb-link">
+                        商品管理
+                    </li>
+                    <li class="crumb-trail">商品分类管理</li>
+                </ol>
             </div>
-            <#--搜索框结束-->
+        </header>
+        <#--Head end-->
 
-            <#--数据展示-->
-            <div class="table-responsive">
-                <table class="table table-bitemed table-hover table-condensed">
-                    <thead>
-                    <tr>
-                        <th>商品分类编号</th>
-                        <th>商品分类标题</th>
-                        <th>创建时间</th>
-                        <th>修改时间</th>
-                        <th>操作</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr v-for="itemCat in itemCatList">
-                        <td>{{itemCat.id}}</td>
-                        <td>{{itemCat.name}}</td>
-                        <td>{{itemCat.created}}</td>
-                        <td>{{itemCat.updated}}</td>
-                        <td>
-                            <button class="label label-info" data-toggle="modal" data-target="#myModal2" @click="toUpdateItemCat(itemCat)">
-                                修改</button>
-                            <button class="label label-success" @click="deleteItemCat(itemCat.id)">删除</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colspan="20" v-if="itemCatList.length == 0" class="text-center">暂无数据!</td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-            <#--数据展示结束-->
+        <section id="content" class="table-layout">
+            <div class="tray tray-center">
+                <div class="panel" id="spy7">
 
-            <#--分页条-->
-            <center>
-                <div class="panel-footer" v-if="dataTotal > 0">
-                    <nav aria-label="Page navigation">
-                        <ul class="pagination">
-                            <li>
-                                <a href="#" @click="firstPage" aria-label="Previous">
-                                    <span aria-hidden="true">首页</span>
+                    <#-- Content-Head start --->
+                    <div class="panel-heading">
+                        <span class="panel-icon"><i class="fa fa-table"></i></span>
+                        <span class="panel-title">商品类目</span>
+                        <span class="panel-controls">
+                                <a href="#" class="btn btn-default btn-sm fw600 ml10" style="width: 105px"
+                                    @click="clickAddBtn()" data-toggle="modal" data-target="#myModal">
+                                    <span class="fa fa-plus pr5"></span>添加分类
                                 </a>
-                            </li>
-                            <li v-if="currentPage != 1">
-                                <a href="#" @click="prePage" aria-label="Previous">
-                                    <span aria-hidden="true">上一页</span>
-                                </a>
-                            </li>
-                            <li ><a href="#">第<span style="color: #ff4949">{{currentPage}}</span>页</a></li>
-                            <li v-if="currentPage != totalPage">
-                                <a href="#" @click="nextPage" aria-label="Next">
-                                    <span aria-hidden="true">下一页</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#" @click="endPage" aria-label="Previous">
-                                    <span aria-hidden="true">尾页</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </nav>
-                </div>
-            <center>
-            <#--分页条结束-->
-
-            <#--修改商品分类-->
-            <div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                            <h4 class="modal-title" id="myModalLabel">修改商品分类名称</h4>
-                        </div>
-                        <div class="modal-body">
-                                <div class="form-group">
-                                    <label for="exampleInputId">商品分类编号</label>
-                                    <input type="text" class="form-control" name="title" v-model="chooseItemCat.id" id="exampleInputId" placeholder="id" readonly>
-                                </div>
-                                <div class="form-group">
-                                    <label for="exampleInputTitle">商品分类名称</label>
-                                    <input type="text" class="form-control" name="title" v-model="chooseItemCat.name" id="exampleInputTitle" placeholder="title" required>
-                                </div>
-                                <button type="submit" class="btn btn-default" @click="updateItemCatInfo">修改</button>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        </div>
+                                <a href="#" class="panel-control-color"></a>
+                                <a href="#" class="panel-control-collapse"></a>
+                                <a href="#" class="panel-control-fullscreen"></a>
+                            </span>
                     </div>
-                </div>
-            </div>
-            <#--修改商品结束-->
+                    <#-- Content-Head end --->
 
-            <#--添加商品分类-->
-            <button type="button" class="btn btn-primary btn" data-toggle="modal" data-target="#myModal" >
-                添加商品分类
-            </button>
-            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                <h4 class="modal-title" id="myModalLabel">添加商品类目</h4>
-                            </div>
-                            <div class="modal-body">
-                                <form @submit.prevent="addItemCatInfo">
-                                    <div class="form-group">
-                                        <label for="exampleInputTitle">商品分类名称</label>
-                                        <input type="text" v-model="addItemCat.name" class="form-control" name="name" id="exampleInputTitle" placeholder="name" required>
+                    <#--Search start-->
+                    <div class="panel-menu dark">
+                        <div class="well well-sm mn">
+                            <form class="form-inline">
+                                <div class="form-group">
+                                    <div class="input-group input-group-sm">
+                                        <div class="input-group-addon btn btn-default">商品分类搜索</div>
+                                        <input type="text" class="form-control input-sm" placeholder="请输分类名"
+                                               v-model="itemCatCondition.name">
                                     </div>
-                                    <button type="submit" class="btn btn-default">添加</button>
-                                </form>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <#--Search end-->
+
+                    <#--Data start-->
+                    <div class="panel-body pn">
+                        <div class="bs-component">
+                            <div class="table-responsive">
+                                <table class="table table-bitemed table-hover table-condensed">
+                                    <thead>
+                                    <tr>
+                                        <th>商品分类编号</th>
+                                        <th>商品分类标题</th>
+                                        <th>创建时间</th>
+                                        <th>修改时间</th>
+                                        <th>操作</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr v-for="itemCat in itemCatList">
+                                        <td>{{itemCat.id}}</td>
+                                        <td>{{itemCat.name}}</td>
+                                        <td>{{itemCat.created}}</td>
+                                        <td>{{itemCat.updated}}</td>
+                                        <td>
+                                            <button class="label btn-info glyphicon glyphicon-pencil" data-toggle="modal" data-target="#myModal2" @click="toUpdateItemCat(itemCat)">
+                                                修改</button>
+                                            <button class="label btn-danger glyphicon glyphicon-trash" @click="deleteItemCat(itemCat.id)"> 删除</button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="20" v-if="itemCatList.length == 0" class="text-center">暂无数据!</td>
+                                    </tr>
+                                    </tbody>
+                                    <#-- Page-menu start -->
+                                    <tfoot>
+                                    <tr>
+                                        <td colspan="20">
+                                            <div class="table-responsive">
+                                                <div id="pageMenu"></div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    </tfoot>
+                                    <#-- Page-menu end -->
+                                </table>
                             </div>
                         </div>
                     </div>
+                    <#--Data end-->
+
                 </div>
-            <#--添加商品结束-->
-
-        </div>
-    </div>
-
+            </div>
+        </section>
+        <#-- Update-item modal -->
+        <#include 'itemCatModal/updateItemCat.ftl'/>
+        <#-- Add-item modal -->
+        <#include 'itemCatModal/addItemCat.ftl'/>
+    </section>
+</div>
+    <#include '../include/footer.ftl'/>
     <#include '../include/footer_js.ftl'/>
-</body>
+    <script src="<@s.url '/assets/js/jquery.pagination-1.2.7.js'/>"></script>
+
 <#--Vue-->
 <script>
     var app = new Vue({
@@ -172,75 +147,78 @@
             itemCatCondition: {
                 name: '',
                 pageSize:'',
-                pageNum:''
+                pageNum:1
             },
             currentPage:0,
             dataTotal:0,
             totalPage:0,
             chooseItemCat:{
                 id:'',
-                name:'',
+                name:''
             },
             addItemCat:{
                 name:''
             }
         },
         created: function(){
-            this.itemCatCondition.pageNum = 1;
-            this.query();
+            this.queryItemCats();
         },
         watch:{
-            "itemCatCondition.name": function () {
-                this.itemCatCondition.pageNum = 1;
-                this.query();
+            "itemCatCondition.pageNum": function () {
+                this.queryItemCats();
             },
+            "itemCatCondition.name": function () {
+                this.itemCatConditionChange();
+            }
         },
         mounted:function () {},
         computed:{},
         methods: {
+            itemCatConditionChange: function(){
+                this.itemCatCondition.pageNum = 1;
+                $("#pageMenu").page("destroy");
+                this.queryItemCats();
+            },
             //查询商品分类列表
-            query: function () {
+            queryItemCats: function () {
+                const temp = this;
                 let url = contentPath + '/itemCat/itemCatList';
                 this.$http.get(url , {params:this.itemCatCondition}).then(function (response) {
-                    if(!response.data.data.list.length && response.data.data.pageNum>0){
-                        this.itemCatCondition.pageNum = this.currentPage - 1;
-                        this.query();
-                    }else{
-                        this.itemCatList = response.data.data.list;
-                        this.currentPage = response.data.data.pageNum;
-                        this.dataTotal = response.data.data.total;
-                        this.totalPage = response.data.data.pages;
+                    if (response.data.retcode!=2000000) {
+                        swal(response.data.msg);
+                        return;
                     }
+                    if (response.data.data.list != null) {
+                        this.itemCatList = response.data.data.list;
+                    }
+                    $("#pageMenu").page({
+                        total: response.data.data.total,
+                        pageSize: response.data.data.pageSize,
+                        firstBtnText: '首页',
+                        lastBtnText: '尾页',
+                        prevBtnText: '上一页',
+                        nextBtnText: '下一页',
+                        showInfo: true,
+                        showJump: true,
+                        jumpBtnText: '跳转',
+                        infoFormat: '{start} ~ {end}条，共{total}条'
+                    }, response.data.data.pageNum)
+                        .on("pageClicked", function (event, pageIndex) {
+                            temp.itemCatCondition.pageNum = pageIndex + 1;
+                        })
+                        .on('jumpClicked', function (event, pageIndex) {
+                            temp.itemCatCondition.pageNum = pageIndex + 1;
+                        });
                 }, function (error) {
                     toastr.error(error.body.msg, '查询商品分类列表失败！');
                 });
-            },
-            //下一页
-            nextPage:function(){
-                this.itemCatCondition.pageNum = this.currentPage+1;
-                this.query();
-            },
-            //上一页
-            prePage:function(){
-                this.itemCatCondition.pageNum = this.currentPage-1;
-                this.query();
-            },
-            //首页
-            firstPage:function(){
-                this.itemCatCondition.pageNum = 1;
-                this.query();
-            },
-            //尾页
-            endPage:function(){
-                this.itemCatCondition.pageNum = this.totalPage;
-                this.query();
             },
             //删除商品分类
             deleteItemCat:function (id) {
                 let url = contentPath + '/itemCat/deleteItemCat/'+id;
                 this.$http.post(url,this.itemCatCondition).then(function (response) {
                     this.itemCatCondition.pageNum = response.data.data.pageNum;
-                    this.query();
+                    this.queryItemCats();
                 }, function (error) {
                     toastr.error(error.body.msg, '商品分类删除失败！');
                 });
@@ -254,7 +232,7 @@
                 let url = contentPath + '/itemCat/updateItemCat';
                 this.$http.post(url,this.chooseItemCat).then(function (response) {
                     $("#myModal2").modal('hide');
-                    this.query();
+                    this.queryItemCats();
                 }, function (error) {
                     toastr.error(error.body.msg, '商品类目名修改失败！');
                 });
@@ -265,16 +243,16 @@
                 this.$http.post(url,this.addItemCat).then(function (response) {
                     $("#myModal").modal('hide');
                     this.addItemCat.name='';
-                    this.query();
+                    this.queryItemCats();
                 }, function (error) {
                     toastr.error(error.body.msg, '商品类目添加失败！');
                 });
             },
-            showData:function () {
-
+            clickAddBtn:function () {
+                $("#myModal").modal('show');
             }
         }
     });
 </script>
-
+</body>
 </html>

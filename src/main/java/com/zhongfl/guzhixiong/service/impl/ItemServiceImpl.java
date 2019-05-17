@@ -3,11 +3,12 @@ package com.zhongfl.guzhixiong.service.impl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.zhongfl.guzhixiong.bean.model.Item;
-import com.zhongfl.guzhixiong.bean.model.ItemCondition;
-import com.zhongfl.guzhixiong.bean.util.ImageUpload;
+import com.zhongfl.guzhixiong.bean.model.req.ItemCondition;
+import com.zhongfl.guzhixiong.util.ImageUpload;
 import com.zhongfl.guzhixiong.mapper.ItemCatMapper;
 import com.zhongfl.guzhixiong.mapper.ItemMapper;
 import com.zhongfl.guzhixiong.service.ItemService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,6 +21,7 @@ import java.util.List;
  * 商品Service实现
  */
 @Service
+@Slf4j
 public class ItemServiceImpl implements ItemService {
 
     @Resource
@@ -47,6 +49,7 @@ public class ItemServiceImpl implements ItemService {
      */
     @Override
     public PageInfo<Item> findByPage(ItemCondition itemCondition) {
+        log.info("查询商品列表条件：{}",itemCondition);
         PageHelper.startPage(itemCondition.getPageNum(),itemCondition.getPageSize());
         List<Item> itemList = itemMapper.selectItemList(itemCondition);
         if (itemList.size()>0) {
@@ -55,7 +58,7 @@ public class ItemServiceImpl implements ItemService {
                 item.setCatName(itemCatMapper.selectItemCatById(item.getCid()).getName());
             });
         }
-        return new PageInfo<Item>(itemList);
+        return new PageInfo<>(itemList);
     }
 
     /**
@@ -66,9 +69,8 @@ public class ItemServiceImpl implements ItemService {
      */
     @Override
     @Transactional
-    public PageInfo<Item> deleteItemById(Integer id,ItemCondition itemCondition) {
-        itemMapper.deleteItemById(id);
-        return findByPage(itemCondition);
+    public int deleteItemById(Integer id,ItemCondition itemCondition) {
+        return itemMapper.deleteItemById(id);
     }
 
     /**
@@ -77,7 +79,7 @@ public class ItemServiceImpl implements ItemService {
      * @return
      */
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public boolean insertItem(Item item) {
         item.setCreated(new Date());
         item.setUpdated(new Date());
@@ -85,6 +87,8 @@ public class ItemServiceImpl implements ItemService {
         String p = ImageUpload.getImgPath(item.getPic(),imagePath);
         //数据库里存储图片的访问地址
         item.setImage(imgPrefix+"/"+p);
+        log.info("插入的商品信息：{}",item);
+
         int row = itemMapper.insertItem(item);
         if (row > 0){
             return true;
@@ -100,8 +104,8 @@ public class ItemServiceImpl implements ItemService {
     @Override
     @Transactional
     public boolean updateItem(Item item) {
+        log.info("修改后商品信息：{}",item);
         item.setUpdated(new Date());
-        //item.setImage(ImageUpload.getImgPath(item.getPic(),imagePath));
         int f = itemMapper.updateItemById(item);
         if (f>0){
             return true;

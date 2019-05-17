@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * 用户Controller
@@ -26,7 +27,7 @@ public class UserController {
      */
     @PostMapping("/sign")
     @ResponseBody
-    public ResponseResult userLogin(@RequestBody User user, HttpServletRequest request){
+    public ResponseResult userLogin(@RequestBody User user, HttpServletRequest request, HttpServletResponse response){
         ResponseResult result = userService.userLogin(user,request);
         return result;
     }
@@ -64,8 +65,10 @@ public class UserController {
      */
     @ResponseBody
     @PostMapping("/updatePwd")
-    public ResponseResult updatePwd(@RequestBody User user){
+    public ResponseResult updatePwd(@RequestBody User user,HttpServletRequest request){
         userService.updatePwd(user);
+        //重新设置密码清空session，重新登录
+        userService.clearLoginUser(request);
         return new ResponseResult();
     }
 
@@ -84,4 +87,13 @@ public class UserController {
         return "redirect:/reset?email="+email;
     }
 
+    /**
+     * 用户退出
+     * @return
+     */
+    @GetMapping("/logout")
+    public String logout(HttpServletRequest request){
+        userService.clearLoginUser(request);
+        return "redirect:/sign";
+    }
 }

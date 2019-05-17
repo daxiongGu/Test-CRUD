@@ -2,10 +2,7 @@ package com.zhongfl.guzhixiong.service;
 
 import com.github.pagehelper.PageInfo;
 import com.zhongfl.guzhixiong.bean.model.Item;
-import com.zhongfl.guzhixiong.bean.model.ItemCat;
-import com.zhongfl.guzhixiong.bean.model.ItemCondition;
-
-import java.util.List;
+import com.zhongfl.guzhixiong.bean.model.req.ItemCondition;
 
 /**
  * 商品Service接口
@@ -25,7 +22,7 @@ public interface ItemService {
      * @param itemCondition
      * @return
      */
-    PageInfo<Item> deleteItemById(Integer id, ItemCondition itemCondition);
+    int deleteItemById(Integer id, ItemCondition itemCondition);
 
     /**
      * 插入商品信息
